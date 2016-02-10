@@ -1,0 +1,262 @@
+<queries>
+	<getConversations>
+		<![CDATA[
+			SELECT * FROM (
+				SELECT 'OUT' AS dir, 
+					   CM.MESSAGE_ID msgId, 
+					   CM.CONVERSATION_ID cId,
+					   CM.USER_TO userId,
+					   U.USERNAME userName,
+					   IFNULL(U.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM secopre.CHAT_CONVERSATION CC,
+				  	   secopre.CHAT_MESSAGE CM,
+				  	   secopre.USER U
+				 WHERE CC.USER_ID = ?
+				   AND CC.CONVERSATION_ID = CM.CONVERSATION_ID
+				   AND CM.CREATION_DATE = (SELECT MAX(CREATION_DATE) FROM secopre.CHAT_MESSAGE WHERE CONVERSATION_ID = CM.CONVERSATION_ID)
+				   AND CM.USER_FROM = CC.USER_ID
+				   AND CM.USER_TO = U.ID
+				   AND CM.ACTIVE = 1
+				UNION
+				SELECT 'IN' AS dir, 
+					   CM.MESSAGE_ID msgId, 
+					   CM.CONVERSATION_ID cId,
+					   CM.USER_FROM userId,
+					   U.USERNAME userName,
+					   IFNULL(U.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM secopre.CHAT_CONVERSATION CC,
+				  	   secopre.CHAT_MESSAGE CM,
+				  	   secopre.USER U
+				 WHERE CC.USER_ID = ?
+				   AND CC.CONVERSATION_ID = CM.CONVERSATION_ID
+				   AND CM.CREATION_DATE = (SELECT MAX(CREATION_DATE) FROM secopre.CHAT_MESSAGE WHERE CONVERSATION_ID = CM.CONVERSATION_ID)
+				   AND CM.USER_TO = CC.USER_ID
+				   AND CM.USER_FROM = U.ID
+				   AND CM.ACTIVE = 1
+				) T ORDER BY T.creationDate DESC	
+				LIMIT ?,?
+		]]>
+	</getConversations>
+	<updateSeen>
+		<![CDATA[
+			UPDATE secopre.CHAT_MESSAGE
+			   SET ESTATUS = 1,
+			   	   LAST_UPDATE = SYSDATE()
+			 WHERE ESTATUS = 0
+			   AND CONVERSATION_ID = ? 
+		]]>
+	</updateSeen>
+	<getConversation>
+		<![CDATA[
+			SELECT * FROM (
+				SELECT 'OUT' as direction,
+					   CM.USER_FROM userId,
+					   UF.USERNAME userName,
+					   IFNULL(UF.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM secopre.CHAT_MESSAGE CM,
+				  	   secopre.USER UF
+				WHERE CM.CONVERSATION_ID = ?
+				  AND CM.USER_FROM = UF.ID
+				  AND UF.ID = ?
+				UNION
+				SELECT 'IN' as direction,
+					   CM.USER_TO userId,
+					   UT.USERNAME userName,
+					   IFNULL(UT.AVATAR, 'avatar.png') avatar,
+					   CM.MESSAGE msg,
+					   CM.ESTATUS status,
+					   CM.CREATION_DATE creationDate
+				  FROM secopre.CHAT_MESSAGE CM,
+				  	   secopre.USER UT
+				WHERE CM.CONVERSATION_ID = ?
+				  AND CM.USER_FROM = UT.ID
+				  AND CM.USER_TO = ?
+				) t ORDER BY t.creationDate DESC
+				LIMIT ?, ?
+		]]>
+	</getConversation>
+
+	<startUserConnection>
+		<![CDATA[
+			INSERT INTO secopre.REL_USER_CONNECTION (USER_ID, SOCKET_ID, CREATION_DATE, LAST_UPDATE, ACTIVE)
+			VALUES (?, ?, SYSDATE(), SYSDATE(), 1)
+			ON DUPLICATE KEY 
+			UPDATE SOCKET_ID = VALUES(SOCKET_ID),
+				   LAST_UPDATE = VALUES(LAST_UPDATE),
+				   ACTIVE = VALUES(ACTIVE)
+		]]>
+	</startUserConnection>
+
+	<finishUserConnection>
+		<![CDATA[
+			UPDATE secopre.REL_USER_CONNECTION
+			SET LAST_UPDATE = SYSDATE(),
+				ACTIVE = 0
+			WHERE SOCKET_ID = ?
+		]]>
+	</finishUserConnection>
+
+	<getFrecuentUsers>
+		<![CDATA[
+			SELECT T.CONVERSATION_ID cId,
+				   T.USER_ID userId,
+				   T.USERNAME userName,
+				   IFNULL(T.AVATAR, 'avatar.png') avatar,
+				   CONVERT(T.ACTIVE, DECIMAL) online,
+				   T.LAST_UPDATE lastConnection,
+				   T.DESCRIPTION employment
+			  FROM (
+				SELECT COUNT(*) AS TOTAL, CC2.CONVERSATION_ID, CC2.USER_ID, U.USERNAME, U.AVATAR, RUC.ACTIVE, RUC.LAST_UPDATE, P.DESCRIPTION
+				  FROM secopre.CHAT_CONVERSATION CC1, secopre.CHAT_CONVERSATION CC2, secopre.USER U,
+				  	   secopre.CHAT_MESSAGE CM, secopre.REL_USER_CONNECTION RUC,
+				  	   secopre.POSITION P
+				 WHERE CC1.USER_ID = ?
+				   AND CC1.CONVERSATION_ID = CC2.CONVERSATION_ID
+				   AND CC2.USER_ID <> CC1.USER_ID
+				   AND CC2.USER_ID = U.ID
+				   AND CC2.CONVERSATION_ID = CM.CONVERSATION_ID
+				   AND RUC.USER_ID = CC2.USER_ID
+				   AND RUC.USER_ID = U.ID
+				   AND U.POSITION_ID = P.ID
+				GROUP BY CM.CONVERSATION_ID
+				) T ORDER BY T.TOTAL DESC, T.USER_ID ASC
+			LIMIT 5
+		]]>
+	</getFrecuentUsers>
+
+	<getActiveUsers>
+		<![CDATA[
+			SELECT U.ID userId,
+				   U.USERNAME userName,
+				   IFNULL(U.AVATAR, 'avatar.png') avatar,
+				   P.DESCRIPTION employment, 
+				   CC.CONVERSATION_ID cId
+			  FROM secopre.REL_USER_CONNECTION RUC,
+			  	   secopre.USER U,
+			  	   secopre.CHAT_CONVERSATION CC
+				   secopre.POSITION P
+			 WHERE RUC.SOCKET_ID = ?
+			   AND RUC.USER_ID != ?
+			   AND RUC.USER_ID = U.ID
+			   AND U.POSITION_ID = P.ID
+			   AND CC.USER_ID = RUC.USER_ID
+			   AND CC.CONVERSATION_ID IN (SELECT CONVERSATION_ID FROM secopre.CHAT_CONVERSATION WHERE USER_ID = ?)
+		]]>
+	</getActiveUsers>
+
+	<getActiveUsersV2>
+		<![CDATA[
+			SELECT U.ID userId,
+				   U.USERNAME userName,
+				   IFNULL(U.AVATAR, 'avatar.png') avatar,
+				   P.DESCRIPTION employment,
+				   IFNULL((
+				   		SELECT T1.CONVERSATION_ID
+				   	     FROM secopre.CHAT_CONVERSATION T1 WHERE T1.USER_ID = RUC.USER_ID
+				   	      AND T1.CONVERSATION_ID IN (SELECT T2.CONVERSATION_ID FROM secopre.CHAT_CONVERSATION T2 WHERE T2.USER_ID = ?)
+				   ),-1) cId
+			  FROM secopre.REL_USER_CONNECTION RUC,
+			  	   secopre.USER U,
+			  	   secopre.POSITION P
+			 WHERE RUC.SOCKET_ID = ?
+			   AND RUC.USER_ID != ?
+			   AND RUC.USER_ID = U.ID
+			   AND U.POSITION_ID = P.ID
+		]]>
+	</getActiveUsersV2>
+
+	<getUser>
+		<![CDATA[
+			SELECT U.ID userId,
+				   U.USERNAME userName,
+				   IFNULL(U.AVATAR, 'avatar.png') avatar,
+				   P.DESCRIPTION employment
+			  FROM secopre.USER U,
+			  	   secopre.POSITION P
+			 WHERE U.ID = ?
+			   AND U.POSITION_ID = P.ID
+		]]>
+	</getUser>
+
+	<existConversation>
+		<![CDATA[
+			SELECT (
+		CASE WHEN ? = ? THEN -1 ELSE
+		IFNULL( 
+				(SELECT CC.CONVERSATION_ID cId
+			  	   FROM secopre.CHAT_CONVERSATION CC
+			 	  WHERE CC.USER_ID = ?
+			        AND CC.CONVERSATION_ID IN (SELECT C2.CONVERSATION_ID FROM secopre.CHAT_CONVERSATION C2 WHERE C2.USER_ID = ?)
+				), -1)  END)
+		]]>
+	</existConversation>
+
+	<startConversation>
+		<![CDATA[
+			CALL secopre.START_CONVERSATION(?,?,@cId); SELECT @cId AS cId;
+		]]>
+	</startConversation>
+
+	<isUserOnline>
+		<![CDATA[
+			SELECT CONVERT(RUC.ACTIVE, DECIMAL) active,
+				   RUC.SOCKET_ID socketId
+		      FROM secopre.REL_USER_CONNECTION RUC
+		     WHERE RUC.USER_ID = ?
+		]]>
+	</isUserOnline>
+
+	<insertMessage>
+		<![CDATA[
+			INSERT INTO secopre.CHAT_MESSAGE
+			(CONVERSATION_ID, USER_FROM, USER_TO, MESSAGE, ESTATUS, CREATION_DATE)
+			VALUES
+			(?,?,?,?,0,SYSDATE());
+		]]>
+	</insertMessage>
+
+	<getUserInfo>
+		<![CDATA[
+			SELECT U.ID userId,
+				   U.USERNAME userName,
+				   IFNULL(U.AVATAR, 'avatar.png') avatar,
+				   P.DESCRIPTION employment,
+				   IFNULL((
+				   		SELECT T1.CONVERSATION_ID
+				   	     FROM secopre.CHAT_CONVERSATION T1 WHERE T1.USER_ID = RUC.USER_ID
+				   	      AND T1.CONVERSATION_ID IN (SELECT T2.CONVERSATION_ID FROM secopre.CHAT_CONVERSATION T2 WHERE T2.USER_ID = ?)
+				   ),-1) cId,
+				   CONVERT(RUC.ACTIVE, DECIMAL) online,
+				   RUC.LAST_UPDATE lastConnection
+			  FROM secopre.REL_USER_CONNECTION RUC,
+			  	   secopre.USER U,
+			  	   secopre.POSITION P
+			 WHERE UPPER(U.USERNAME) LIKE UPPER(CONCAT('%', ?, '%'))
+			   AND U.ID != ?
+			   AND RUC.USER_ID = U.ID
+			   AND U.POSITION_ID = P.ID
+		]]>
+	</getUserInfo>
+
+	<getNewNotifications>
+		<![CDATA[
+			SELECT * FROM secopre.NOTIFICATION
+		]]>
+	</getNewNotifications>
+	
+	<getUserConnectionStatus>
+		<![CDATA[
+			SELECT * FROM secopre.REL_USER_CONNECTION RUC WHERE RUC.USER_ID = userId
+		]]>
+	</getUserConnectionStatus>
+	
+</queries>

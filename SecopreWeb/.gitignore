@@ -1,0 +1,9 @@
+/target/
+/.settings/
+/.classpath
+/.project
+/.tern-project
+/build/
+/hs_err_pid5813.log
+/hs_err_pid25498.log
+/hs_err_pid25410.log
