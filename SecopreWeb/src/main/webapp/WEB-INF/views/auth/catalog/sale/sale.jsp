@@ -3,7 +3,7 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 <!-- 				<div class="page-title"> -->
-<!-- 					<h1>Administracion<small> Personas</small></h1> -->
+<!-- 					<h1>Administracion<small> Ventas</small></h1> -->
 <!-- 				</div> -->
 			</div>
 			<!-- END PAGE HEAD -->
@@ -13,19 +13,22 @@
 					<a href="javascript:;">Administración</a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
-					 Personas
+					 Ventas
 				</li>
 			</ul>
 			<!-- END PAGE BREADCRUMB -->
 
-			<!-- FORMULARIO AGREGAR PERSONAS -->
-			<div id="add_Person">
-				<%@ include file="/WEB-INF/views/auth/catalog/person/add.jsp"%>
+			<!-- FORMULARIO AGREGAR VENTAS -->
+			<div id="add_Sale">
+				<%@ include file="/WEB-INF/views/auth/catalog/sale/add.jsp"%>
 			</div>
-			<!-- TERMINA FORMULARIO AGREGAR PERSONAS -->
+			<!-- TERMINA FORMULARIO AGREGAR VENTAS -->
 			
-			<!-- LISTA USUARIOS -->
-			<div id="list_Person">
-				<%@ include file="/WEB-INF/views/auth/catalog/person/list.jsp"%>
+			<!-- LISTA VENTAS -->
+			<div id="list_Sale">
+				<%@ include file="/WEB-INF/views/auth/catalog/sale/list.jsp"%>
 			</div>
-			<!-- TERMINA LISTA PERSONAS -->
+			<!-- TERMINA LISTA VENTAS -->			
+
+	
+	

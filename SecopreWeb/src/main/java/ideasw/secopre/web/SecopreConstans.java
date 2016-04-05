@@ -117,7 +117,19 @@ public class SecopreConstans {
 
 	//####Modulo de presupuesto anual
 	public static final String MV_ADM_SCHEDULING = "auth/admin/config/scheduling/list";
-	public static final String MV_ADM_SCHEDULING_REDIRECT = "redirect:/auth/adm/sche";	
-	
+	public static final String MV_ADM_SCHEDULING_REDIRECT = "redirect:/auth/adm/sche";
 		
+	public static final String MV_CAT_PRODUCT = "auth/catalog/product/product";
+	public static final String MV_CAT_PRODUCT_ADD = "auth/catalog/product/add";
+	public static final String MV_CAT_PRODUCT_LIST = "auth/catalog/product/list";
+	public static final String MV_CAT_PRODUCT_EDIT = "auth/catalog/product/edit";
+	
+	public static final String MV_CAT_BILL = "auth/catalog/bill/bill";
+	public static final String MV_CAT_BILL_ADD = "auth/catalog/bill/add";
+	public static final String MV_CAT_BILL_LIST = "auth/catalog/bill/list";
+	public static final String MV_CAT_BILL_EDIT = "auth/catalog/bill/edit";
+	
+	public static final String MV_CAT_SALE = "auth/catalog/sale/sale";
+	public static final String MV_CAT_SALE_ADD = "auth/catalog/sale/add";
+	public static final String MV_CAT_SALE_LIST = "auth/catalog/sale/list";
 }

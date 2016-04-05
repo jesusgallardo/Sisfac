@@ -1039,9 +1039,42 @@ function initPersonList() {
 	sendRequestJQ('auth/cat/person/list', 'dashboard', 'initPersonPage()');
 }
 
+function initProductList() {
+	sendRequestJQ('auth/cat/product/list', 'dashboard', 'initProductPage()');
+}
+
+function initBillList() {
+	sendRequestJQ('auth/cat/bill/list', 'dashboard', 'initBillPage()');
+}
+
+function initSaleList() {
+	sendRequestJQ('auth/cat/sale/list', 'dashboard', 'initSalePage()');
+}
+
 function initPersonPage() {
 	initPage('Person');
 	initPersonValidations();
+	$('#my_multi_select1').multiSelect();
+	$('select').select2();
+}
+
+function initProductPage() {
+	initPage('Product');
+	initProductValidations();
+	$('#my_multi_select1').multiSelect();
+	$('select').select2();
+}
+
+function initSalePage() {
+	initPage('Sale');
+	initSaleValidations();
+	$('#my_multi_select1').multiSelect();
+	$('select').select2();
+}
+
+function initBillPage() {
+	initPage('Bill');
+	initBillValidations();
 	$('#my_multi_select1').multiSelect();
 	$('select').select2();
 }
@@ -2159,6 +2192,729 @@ function initPersonValidations() {
 	$('#submitRequestForm').click(function() {
 		if (form.valid()) {
 			submitAjaxJQ('submit_form', 'dashboard', 'initPersonList()');
+		}
+	});
+	
+	updateMenu("#formalityMenu");
+}
+
+function initProductValidations() {
+
+	var form = $('#submit_form');
+	var error = $('.alert-danger', form);
+	var success = $('.alert-success', form);
+	// alert('validando');
+	form.validate({
+		doNotHideMessage : true,
+		errorElement : 'span', // default input error message container
+		errorClass : 'help-block help-block-error', // default input error
+		// message class
+		focusInvalid : false, // do not focus the last invalid input
+		// ignore : "", // validate all fields including form hidden input
+		rules : {
+			name : {
+				required : true,
+				maxlength : 30
+			},
+			secondName : {
+				maxlength : 30
+			},
+			fatherLastName : {
+				required : true,
+				maxlength : 30
+			},
+			motherLastName : {
+				required : true,
+				maxlength : 30
+			},
+			telephone : {
+				// phone : true,
+				required : true,
+				// minlength:10,
+				maxlength:30
+			},
+			mobileTelepone : {
+				// phone : true,
+				// minlength:10,
+				maxlength:12
+			},
+			twitter : {},
+			facebook : {},
+			webSite : {},
+			"stateDTO.id" : {
+				required : true
+			},
+			gender : {
+				required : true
+			},
+			street : {
+				required : true,
+				maxlength : 150
+			},
+			number : {
+				required : true,
+				maxlength : 30
+			},
+			city : {
+				required : true,
+				maxlength : 30
+			},
+			zipCode : {
+				required : true,
+				maxlength : 5,
+				number : true
+			}	
+		},
+
+		invalidHandler : function(event, validator) { // display error alert
+			// on form submit
+			success.hide();
+			error.show();
+			Metronic.scrollTo(error, -50);
+		},
+
+		errorPlacement : function(error, element) { // render error placement
+			// for each input type
+			var icon = $(element).parent('.input-icon').children('i');
+			icon.removeClass('fa-check').addClass("fa-warning");
+			icon.attr("data-original-title", error.text()).tooltip({
+				'container' : 'body'
+			});
+		},
+
+		highlight : function(element) { // hightlight error inputs
+			$(element).closest('.form-group').removeClass('has-success')
+					.addClass('has-error'); // set error class to the control
+			// group
+		},
+
+		unhighlight : function(element) { // revert the change done by
+			// hightlight
+			$(element).closest('.form-group').removeClass('has-error'); // set
+			// error
+			// class
+			// to
+			// the
+			// control
+			// group
+		},
+
+		success : function(label, element) {
+			var icon = $(element).parent('.input-icon').children('i');
+			$(element).closest('.form-group').removeClass('has-error')
+					.addClass('has-success'); // set success class to the
+			// control group
+			icon.removeClass("fa-warning").addClass("fa-check");
+		},
+
+		submitHandler : function(form) {
+			success.show();
+			error.hide();
+			form[0].submit(); // submit the form
+		}
+	});
+	
+//	$.validator.addMethod(
+//		    "telephone",
+//		    function(value, element) {
+//		        // put your own logic here, this is just a (crappy) example
+//		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/); "[0-9\-\(\)\s]+"
+//		    }
+//		);
+
+	$.validator.addMethod("phone", function(phone_number, element) {
+	    phone_number = phone_number.replace(/\s+/g, ""); 
+		return this.optional(element) || phone_number.length > 9 &&
+			phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+	}, "Especifica un telefono valido");
+
+	var displayConfirm = function() {
+		$('#tab2 .form-control-static', form).each(
+				function() {
+					var input = $('[name="' + $(this).attr("data-display")
+							+ '"]', form);
+					if (input.is(":radio")) {
+						input = $('[name="' + $(this).attr("data-display")
+								+ '"]:checked', form);
+					}
+					if (input.is(":text") || input.is("textarea")) {
+						$(this).html(input.val());
+					} else if (input.is("select")) {
+						var elements = [];
+						input.each(function() {
+							var selectedOption = $(this)
+									.find('option:selected');
+							elements.push(selectedOption.text());
+						});
+						$(this).html(elements.join("<br>"));
+					} else if (input.is(":radio") && input.is(":checked")) {
+						$(this).html(input.attr("data-title"));
+					} else {
+						$(this).html($("input[name='email']").val());
+					}
+				});
+	}
+
+	var handleTitle = function(tab, navigation, index) {
+		var total = navigation.find('li').length;
+		var current = index + 1;
+		// set wizard title
+		$('.step-title', $('#form_wizard_1')).text(
+				'Paso ' + (index + 1) + ' de ' + total);
+		// set done steps
+		jQuery('li', $('#form_wizard_1')).removeClass("done");
+		var li_list = navigation.find('li');
+		for (var i = 0; i < index; i++) {
+			jQuery(li_list[i]).addClass("done");
+		}
+
+		if (current == 1) {
+			$('#form_wizard_1').find('.button-previous').hide();
+		} else {
+			$('#form_wizard_1').find('.button-previous').show();
+		}
+
+		if (current >= total) {
+			$('#form_wizard_1').find('.button-next').hide();
+			$('#form_wizard_1').find('.button-submit').show();
+			displayConfirm();
+		} else {
+			$('#form_wizard_1').find('.button-next').show();
+			$('#form_wizard_1').find('.button-submit').hide();
+		}
+		Metronic.scrollTo($('.page-title'));
+	}
+
+	// default form wizard
+	$('#form_wizard_1').bootstrapWizard({
+		'nextSelector' : '.button-next',
+		'previousSelector' : '.button-previous',
+		onTabClick : function(tab, navigation, index, clickedIndex) {
+			return false;
+			/*
+			 * success.hide(); error.hide(); if (form.valid() == false) { return
+			 * false; } handleTitle(tab, navigation, clickedIndex);
+			 */
+		},
+		onNext : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			if (form.valid() == false) {
+				return false;
+			}
+
+			handleTitle(tab, navigation, index);
+		},
+		onPrevious : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			handleTitle(tab, navigation, index);
+		},
+		onTabShow : function(tab, navigation, index) {
+			var total = navigation.find('li').length;
+			var current = index + 1;
+			var $percent = (current / total) * 100;
+			$('#form_wizard_1').find('.progress-bar').css({
+				width : $percent + '%'
+			});
+		}
+	});
+
+	$('#form_wizard_1').find('.button-previous').hide();
+	$('#form_wizard_1 .button-submit').click(function() {
+		// formId, targetId,after
+		// submitAjaxJQ('submit_form','dashboard','');
+	}).hide();
+
+	$('#submitRequestForm').click(function() {
+		if (form.valid()) {
+			submitAjaxJQ('submit_form', 'dashboard', 'initProductList()');
+		}
+	});
+	
+	updateMenu("#formalityMenu");
+}
+
+function initSaleValidations() {
+
+	var form = $('#submit_form');
+	var error = $('.alert-danger', form);
+	var success = $('.alert-success', form);
+	// alert('validando');
+	form.validate({
+		doNotHideMessage : true,
+		errorElement : 'span', // default input error message container
+		errorClass : 'help-block help-block-error', // default input error
+		// message class
+		focusInvalid : false, // do not focus the last invalid input
+		// ignore : "", // validate all fields including form hidden input
+		rules : {
+			name : {
+				required : true,
+				maxlength : 30
+			},
+			secondName : {
+				maxlength : 30
+			},
+			fatherLastName : {
+				required : true,
+				maxlength : 30
+			},
+			motherLastName : {
+				required : true,
+				maxlength : 30
+			},
+			telephone : {
+				// phone : true,
+				required : true,
+				// minlength:10,
+				maxlength:30
+			},
+			mobileTelepone : {
+				// phone : true,
+				// minlength:10,
+				maxlength:12
+			},
+			twitter : {},
+			facebook : {},
+			webSite : {},
+			"stateDTO.id" : {
+				required : true
+			},
+			gender : {
+				required : true
+			},
+			street : {
+				required : true,
+				maxlength : 150
+			},
+			number : {
+				required : true,
+				maxlength : 30
+			},
+			city : {
+				required : true,
+				maxlength : 30
+			},
+			zipCode : {
+				required : true,
+				maxlength : 5,
+				number : true
+			}	
+		},
+
+		invalidHandler : function(event, validator) { // display error alert
+			// on form submit
+			success.hide();
+			error.show();
+			Metronic.scrollTo(error, -50);
+		},
+
+		errorPlacement : function(error, element) { // render error placement
+			// for each input type
+			var icon = $(element).parent('.input-icon').children('i');
+			icon.removeClass('fa-check').addClass("fa-warning");
+			icon.attr("data-original-title", error.text()).tooltip({
+				'container' : 'body'
+			});
+		},
+
+		highlight : function(element) { // hightlight error inputs
+			$(element).closest('.form-group').removeClass('has-success')
+					.addClass('has-error'); // set error class to the control
+			// group
+		},
+
+		unhighlight : function(element) { // revert the change done by
+			// hightlight
+			$(element).closest('.form-group').removeClass('has-error'); // set
+			// error
+			// class
+			// to
+			// the
+			// control
+			// group
+		},
+
+		success : function(label, element) {
+			var icon = $(element).parent('.input-icon').children('i');
+			$(element).closest('.form-group').removeClass('has-error')
+					.addClass('has-success'); // set success class to the
+			// control group
+			icon.removeClass("fa-warning").addClass("fa-check");
+		},
+
+		submitHandler : function(form) {
+			success.show();
+			error.hide();
+			form[0].submit(); // submit the form
+		}
+	});
+	
+//	$.validator.addMethod(
+//		    "telephone",
+//		    function(value, element) {
+//		        // put your own logic here, this is just a (crappy) example
+//		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/); "[0-9\-\(\)\s]+"
+//		    }
+//		);
+
+	$.validator.addMethod("phone", function(phone_number, element) {
+	    phone_number = phone_number.replace(/\s+/g, ""); 
+		return this.optional(element) || phone_number.length > 9 &&
+			phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+	}, "Especifica un telefono valido");
+
+	var displayConfirm = function() {
+		$('#tab3 .form-control-static', form).each(
+				function() {
+					var input = $('[name="' + $(this).attr("data-display")
+							+ '"]', form);
+					if (input.is(":radio")) {
+						input = $('[name="' + $(this).attr("data-display")
+								+ '"]:checked', form);
+					}
+					if (input.is(":text") || input.is("textarea")) {
+						$(this).html(input.val());
+					} else if (input.is("select")) {
+						var elements = [];
+						input.each(function() {
+							var selectedOption = $(this)
+									.find('option:selected');
+							elements.push(selectedOption.text());
+						});
+						$(this).html(elements.join("<br>"));
+					} else if (input.is(":radio") && input.is(":checked")) {
+						$(this).html(input.attr("data-title"));
+					} else {
+						$(this).html($("input[name='email']").val());
+					}
+				});
+	}
+
+	var handleTitle = function(tab, navigation, index) {
+		var total = navigation.find('li').length;
+		var current = index + 1;
+		// set wizard title
+		$('.step-title', $('#form_wizard_1')).text(
+				'Paso ' + (index + 1) + ' de ' + total);
+		// set done steps
+		jQuery('li', $('#form_wizard_1')).removeClass("done");
+		var li_list = navigation.find('li');
+		for (var i = 0; i < index; i++) {
+			jQuery(li_list[i]).addClass("done");
+		}
+
+		if (current == 1) {
+			$('#form_wizard_1').find('.button-previous').hide();
+		} else {
+			$('#form_wizard_1').find('.button-previous').show();
+		}
+
+		if (current >= total) {
+			$('#form_wizard_1').find('.button-next').hide();
+			$('#form_wizard_1').find('.button-submit').show();
+			displayConfirm();
+		} else {
+			$('#form_wizard_1').find('.button-next').show();
+			$('#form_wizard_1').find('.button-submit').hide();
+		}
+		Metronic.scrollTo($('.page-title'));
+	}
+
+	// default form wizard
+	$('#form_wizard_1').bootstrapWizard({
+		'nextSelector' : '.button-next',
+		'previousSelector' : '.button-previous',
+		onTabClick : function(tab, navigation, index, clickedIndex) {
+			return false;
+			/*
+			 * success.hide(); error.hide(); if (form.valid() == false) { return
+			 * false; } handleTitle(tab, navigation, clickedIndex);
+			 */
+		},
+		onNext : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			if (form.valid() == false) {
+				return false;
+			}
+
+			handleTitle(tab, navigation, index);
+		},
+		onPrevious : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			handleTitle(tab, navigation, index);
+		},
+		onTabShow : function(tab, navigation, index) {
+			var total = navigation.find('li').length;
+			var current = index + 1;
+			var $percent = (current / total) * 100;
+			$('#form_wizard_1').find('.progress-bar').css({
+				width : $percent + '%'
+			});
+		}
+	});
+
+	$('#form_wizard_1').find('.button-previous').hide();
+	$('#form_wizard_1 .button-submit').click(function() {
+		// formId, targetId,after
+		// submitAjaxJQ('submit_form','dashboard','');
+	}).hide();
+
+	$('#submitRequestForm').click(function() {
+		if (form.valid()) {
+			submitAjaxJQ('submit_form', 'dashboard', 'initSaleList()');
+		}
+	});
+	
+	updateMenu("#formalityMenu");
+}
+
+function initBillValidations() {
+
+	var form = $('#submit_form');
+	var error = $('.alert-danger', form);
+	var success = $('.alert-success', form);
+	// alert('validando');
+	form.validate({
+		doNotHideMessage : true,
+		errorElement : 'span', // default input error message container
+		errorClass : 'help-block help-block-error', // default input error
+		// message class
+		focusInvalid : false, // do not focus the last invalid input
+		// ignore : "", // validate all fields including form hidden input
+		rules : {
+			name : {
+				required : true,
+				maxlength : 30
+			},
+			secondName : {
+				maxlength : 30
+			},
+			fatherLastName : {
+				required : true,
+				maxlength : 30
+			},
+			motherLastName : {
+				required : true,
+				maxlength : 30
+			},
+			telephone : {
+				// phone : true,
+				required : true,
+				// minlength:10,
+				maxlength:30
+			},
+			mobileTelepone : {
+				// phone : true,
+				// minlength:10,
+				maxlength:12
+			},
+			twitter : {},
+			facebook : {},
+			webSite : {},
+			"stateDTO.id" : {
+				required : true
+			},
+			gender : {
+				required : true
+			},
+			street : {
+				required : true,
+				maxlength : 150
+			},
+			number : {
+				required : true,
+				maxlength : 30
+			},
+			city : {
+				required : true,
+				maxlength : 30
+			},
+			zipCode : {
+				required : true,
+				maxlength : 5,
+				number : true
+			}	
+		},
+
+		invalidHandler : function(event, validator) { // display error alert
+			// on form submit
+			success.hide();
+			error.show();
+			Metronic.scrollTo(error, -50);
+		},
+
+		errorPlacement : function(error, element) { // render error placement
+			// for each input type
+			var icon = $(element).parent('.input-icon').children('i');
+			icon.removeClass('fa-check').addClass("fa-warning");
+			icon.attr("data-original-title", error.text()).tooltip({
+				'container' : 'body'
+			});
+		},
+
+		highlight : function(element) { // hightlight error inputs
+			$(element).closest('.form-group').removeClass('has-success')
+					.addClass('has-error'); // set error class to the control
+			// group
+		},
+
+		unhighlight : function(element) { // revert the change done by
+			// hightlight
+			$(element).closest('.form-group').removeClass('has-error'); // set
+			// error
+			// class
+			// to
+			// the
+			// control
+			// group
+		},
+
+		success : function(label, element) {
+			var icon = $(element).parent('.input-icon').children('i');
+			$(element).closest('.form-group').removeClass('has-error')
+					.addClass('has-success'); // set success class to the
+			// control group
+			icon.removeClass("fa-warning").addClass("fa-check");
+		},
+
+		submitHandler : function(form) {
+			success.show();
+			error.hide();
+			form[0].submit(); // submit the form
+		}
+	});
+	
+//	$.validator.addMethod(
+//		    "telephone",
+//		    function(value, element) {
+//		        // put your own logic here, this is just a (crappy) example
+//		        return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/); "[0-9\-\(\)\s]+"
+//		    }
+//		);
+
+	$.validator.addMethod("phone", function(phone_number, element) {
+	    phone_number = phone_number.replace(/\s+/g, ""); 
+		return this.optional(element) || phone_number.length > 9 &&
+			phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+	}, "Especifica un telefono valido");
+
+	var displayConfirm = function() {
+		$('#tab3 .form-control-static', form).each(
+				function() {
+					var input = $('[name="' + $(this).attr("data-display")
+							+ '"]', form);
+					if (input.is(":radio")) {
+						input = $('[name="' + $(this).attr("data-display")
+								+ '"]:checked', form);
+					}
+					if (input.is(":text") || input.is("textarea")) {
+						$(this).html(input.val());
+					} else if (input.is("select")) {
+						var elements = [];
+						input.each(function() {
+							var selectedOption = $(this)
+									.find('option:selected');
+							elements.push(selectedOption.text());
+						});
+						$(this).html(elements.join("<br>"));
+					} else if (input.is(":radio") && input.is(":checked")) {
+						$(this).html(input.attr("data-title"));
+					} else {
+						$(this).html($("input[name='email']").val());
+					}
+				});
+	}
+
+	var handleTitle = function(tab, navigation, index) {
+		var total = navigation.find('li').length;
+		var current = index + 1;
+		// set wizard title
+		$('.step-title', $('#form_wizard_1')).text(
+				'Paso ' + (index + 1) + ' de ' + total);
+		// set done steps
+		jQuery('li', $('#form_wizard_1')).removeClass("done");
+		var li_list = navigation.find('li');
+		for (var i = 0; i < index; i++) {
+			jQuery(li_list[i]).addClass("done");
+		}
+
+		if (current == 1) {
+			$('#form_wizard_1').find('.button-previous').hide();
+		} else {
+			$('#form_wizard_1').find('.button-previous').show();
+		}
+
+		if (current >= total) {
+			$('#form_wizard_1').find('.button-next').hide();
+			$('#form_wizard_1').find('.button-submit').show();
+			displayConfirm();
+		} else {
+			$('#form_wizard_1').find('.button-next').show();
+			$('#form_wizard_1').find('.button-submit').hide();
+		}
+		Metronic.scrollTo($('.page-title'));
+	}
+
+	// default form wizard
+	$('#form_wizard_1').bootstrapWizard({
+		'nextSelector' : '.button-next',
+		'previousSelector' : '.button-previous',
+		onTabClick : function(tab, navigation, index, clickedIndex) {
+			return false;
+			/*
+			 * success.hide(); error.hide(); if (form.valid() == false) { return
+			 * false; } handleTitle(tab, navigation, clickedIndex);
+			 */
+		},
+		onNext : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			if (form.valid() == false) {
+				return false;
+			}
+
+			handleTitle(tab, navigation, index);
+		},
+		onPrevious : function(tab, navigation, index) {
+
+			success.hide();
+			error.hide();
+
+			handleTitle(tab, navigation, index);
+		},
+		onTabShow : function(tab, navigation, index) {
+			var total = navigation.find('li').length;
+			var current = index + 1;
+			var $percent = (current / total) * 100;
+			$('#form_wizard_1').find('.progress-bar').css({
+				width : $percent + '%'
+			});
+		}
+	});
+
+	$('#form_wizard_1').find('.button-previous').hide();
+	$('#form_wizard_1 .button-submit').click(function() {
+		// formId, targetId,after
+		// submitAjaxJQ('submit_form','dashboard','');
+	}).hide();
+
+	$('#submitRequestForm').click(function() {
+		if (form.valid()) {
+			submitAjaxJQ('submit_form', 'dashboard', 'initBillList()');
 		}
 	});
 	

@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/views/auth/common/springTags.jsp"%>
-
+	
 			<!-- BEGIN PAGE CONTENT-->
 			<div class="row">
 				<div class="col-md-12">
@@ -81,7 +81,7 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="secondName"  id="secondName" value="${person.secondName}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>' aria-required="true" aria-describedby="secondName-error" aria-invalid="true" 
+																<input name="secondName"  id="secondName" value="${person.secondName}" type="text" aria-required="true" aria-describedby="name-error" aria-invalid="true" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.secondName.placeholder"/>' aria-required="true" aria-describedby="secondName-error" aria-invalid="true" 
 																aria-required="true" aria-describedby="name-error" aria-invalid="true">
 																<div class="form-control-focus">
 																</div>
@@ -561,3 +561,4 @@
 				</div>
 			</div>
 			<!-- END PAGE CONTENT-->
+
