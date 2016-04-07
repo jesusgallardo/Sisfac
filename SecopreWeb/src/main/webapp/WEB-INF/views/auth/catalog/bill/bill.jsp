@@ -2,9 +2,9 @@
 			<!-- BEGIN PAGE HEAD -->
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
-<!-- 				<div class="page-title"> -->
-<!-- 					<h1>Administracion<small> Facturas</small></h1> -->
-<!-- 				</div> -->
+				<div class="page-title"> 
+ 					<h1>Catalogo de Facturas</h1> 
+ 				</div>
 			</div>
 			<!-- END PAGE HEAD -->
 			<!-- BEGIN PAGE BREADCRUMB -->

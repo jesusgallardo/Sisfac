@@ -3,10 +3,11 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>Administracion<small>Permisos</small></h1>
+					<h1>Administracion de Permisos</h1>
+					
 				</div>
 			</div>
-			<!-- END PAGE HEAD -->
+			<!-- END PAGE HEAD <small>Permisos</small> -->
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>

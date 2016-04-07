@@ -8,7 +8,7 @@
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="fa fa-globe"></i>
-					<spring:message code="application.pages.admin.roles.table.title" />
+					<spring:message code="application.pages.admin.perm.table.title" />
 				</div>
 				<div class="tools">
 					<a href="javascript:;" class="collapse"> </a> <a
@@ -47,7 +47,7 @@
 							<th class="table-checkbox"><input type="checkbox"
 								class="group-checkable" data-set="#rolesTable .checkboxes" /></th>
 							<th><spring:message
-									code="application.pages.admin.roles.rolename" /></th>
+									code="application.pages.admin.perm.name" /></th>
 							<th>Path</th>
 							<th>Es Menu</th>
 							<th><spring:message

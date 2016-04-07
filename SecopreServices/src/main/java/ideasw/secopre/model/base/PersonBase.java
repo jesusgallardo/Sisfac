@@ -1,6 +1,7 @@
 package ideasw.secopre.model.base;
 
 import ideasw.secopre.enums.Gender;
+import ideasw.secopre.enums.PersonCode;
 import ideasw.secopre.model.catalog.Address;
 
 import javax.persistence.Column;
@@ -63,6 +64,13 @@ public class PersonBase extends AuditEntity {
 
 	@Column(name = "WEB_SITE",nullable = true, length = 300)
 	private String webSite;
+	
+	@Column(name = "EMAIL",nullable = true, length = 300)
+	private String email;
+	
+	@Column(name = "PERSONCODE",nullable = true)
+	@Enumerated(EnumType.STRING)
+	private PersonCode personCode;
 
 	@ManyToOne
 	@PrimaryKeyJoinColumn(name = "ADDRESS_ID", referencedColumnName = "ID")
@@ -276,6 +284,22 @@ public class PersonBase extends AuditEntity {
 
 	public void setExtension(String extension) {
 		this.extension = extension;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public PersonCode getPersonCode() {
+		return personCode;
+	}
+
+	public void setPersonCode(PersonCode personCode) {
+		this.personCode = personCode;
 	}
 
 

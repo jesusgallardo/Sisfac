@@ -173,6 +173,24 @@
 												          </div>
 													   </div>
 												    </div>
+												    
+												    <div class="form-group form-md-line-input has-danger">
+													<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.personcode"/>
+										  			<span class="required">* </span> 
+												    </label>
+													   <div class="col-md-4">
+													      <div class="input-group">
+																<span class="input-group-addon"> 
+																  <i class="icon-user"></i>
+																</span> 																
+																<form:select path="person.personCode"  name="personCode" class="form-control">
+												                    <form:option value="" label="Seleccione..."/>
+												                    <form:options items="${personCode}" />
+												                </form:select>
+															<div class="form-control-focus"></div>
+												          </div>
+													   </div>
+												    </div>	
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.telephone"/>
@@ -233,6 +251,8 @@
 <!-- 														</div> -->
 <!-- 													</div>	 -->
 													
+																									
+													
 <!-- 													<div class="form-group form-md-line-input has-danger"> -->
 <%-- 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.facebook"/> --%>
 <!-- 														</label> -->
@@ -246,6 +266,39 @@
 <!-- 															</div> -->
 <!-- 														</div> -->
 <!-- 													</div>	 -->
+													
+												 <div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.rfc"/>
+														<span class="required">* </span>
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input id="rfc" name="rfc" value="${person.rfc}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.persons.rfc.placeholder"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id = "rfc-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.rfc.help"/></span>
+																<i class="fa fa-female"></i>
+															</div>
+														</div>
+													</div>	
+												 
+												 <div class="form-group form-md-line-input">
+										              <label class="col-md-2 control-label" for="form_control_1">
+												      <spring:message code="application.pages.admin.users.email" />
+												      <span class="required">*</span>
+											          </label>
+											          <div class="col-md-9">
+												          <div class="input-icon">
+												              <input name="email" id="email" type="email" value="${person.email}" class="form-control" placeholder='<spring:message code="application.pages.admin.users.email"/>'>
+												              <div class="form-control-focus">
+												              </div>
+													          <span id="email-error" class="help-block help-block-error">
+														      <spring:message code="application.pages.admin.users.email.help" />
+													          </span>
+													          <i class="fa fa-envelope"></i>
+												          </div>
+											          </div>
+										         </div>
 													
 													<div class="form-group form-md-line-input has-danger">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.persons.webSite"/>

@@ -60,8 +60,14 @@ public class SaleController extends AuthController {
 		
 		//Lista de Personas
 				HashMap<Long, String> personMap = new HashMap<Long, String>();
+				
+				
+				
 				for (Person p : personas) {
+					if (p.getPersonCode().equals("CLIENTE"))
+					{
 					personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
+					}
 				}
 				model.addAttribute("personList", personMap);
 		
@@ -125,8 +131,11 @@ List<Product> producto = baseService.findAll(Product.class);
 		//Lista de Personas
 				HashMap<Long, String> personMap = new HashMap<Long, String>();
 				for (Person p : personas) {
+					if (p.getPersonCode().equals("CLIENTE"))
+					{
 					personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
 				}
+			}
 				model.addAttribute("personList", personMap);
 	
 		
