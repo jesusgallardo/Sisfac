@@ -50,6 +50,20 @@
 												<h3 class="block">Proporcionar Datos Del Producto</h3>
 												<div class="form-body">													
 													
+													<div class="form-group form-md-line-input has-danger">
+														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.product.fatherLastName"/>
+														<span class="required">* </span>
+														</label>
+														<div class="col-md-10">
+															<div class="input-icon">
+																<input id="code" name="code" value="${product.code}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.product.fatherLastName"/>'>
+																<div class="form-control-focus">
+																</div>
+																<span id = "code-error" class="help-block help-block-error"><spring:message code="application.pages.admin.product.fatherLastName"/></span>
+																<i class="fa fa-female"></i>
+															</div>
+														</div>
+													</div>
 													
 													<div class="form-group form-md-line-input">
 														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.product.name"/>
@@ -83,36 +97,25 @@
 															</div>
 														</div>
 													</div>	
-													
+																																							
 													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.product.fatherLastName"/>
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input id="code" name="code" value="${product.code}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.product.fatherLastName"/>'>
-																<div class="form-control-focus">
-																</div>
-																<span id = "code-error" class="help-block help-block-error"><spring:message code="application.pages.admin.product.fatherLastName"/></span>
-																<i class="fa fa-female"></i>
-															</div>
-														</div>
-													</div>	
-													
-													<div class="form-group form-md-line-input has-danger">
-														<label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.product.motherLastName"/> 
-														<span class="required">* </span>
-														</label>
-														<div class="col-md-10">
-															<div class="input-icon">
-																<input name="provider"  id="provider" value="${product.provider}" type="text"  class="form-control" placeholder='<spring:message code="application.pages.admin.product.motherLastName"/>'>
-																<div class="form-control-focus">
-																</div>																				
- 																<span id="provider" class="help-block help-block-error"><spring:message code="application.pages.admin.product.motherLastName"/></span> 
-															    <i class="fa fa-male"></i>
-															</div>
-														</div>
-													</div>
+										                <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.selectPerson"/>
+										                    <span class="required">* </span> 
+										                </label>
+										                <div class="col-md-4">
+										                    <div class="input-icon">
+											             	<form:select path="product.person.id"  name="person" class="form-control">
+												            <form:option value="" label="Seleccione..."/>
+	    										            <form:options items="${personList}" />
+												            </form:select>
+												            <div class="form-control-focus"></div>
+												            <span id="person-error" class="help-block help-block-error">
+													        <spring:message code="application.pages.admin.users.selectPerson"/>
+												            </span>
+												            <i class="icon-user"></i>
+										                    </div>
+										               </div>
+										           </div>
 										    	</div>
 											</div>
 

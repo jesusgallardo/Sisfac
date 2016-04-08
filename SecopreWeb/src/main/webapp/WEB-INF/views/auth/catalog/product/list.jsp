@@ -66,10 +66,10 @@
 										 ${productItem.price}
 									</td>
 									<td>
-										 ${productItem.provider}
+										 ${productItem.code}
 									</td>
 									<td>
-										 ${productItem.code}
+									     ${productItem.person.name}
 									</td>
 									<td>
 									<c:choose>

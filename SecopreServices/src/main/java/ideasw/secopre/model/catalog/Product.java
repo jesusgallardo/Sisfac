@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -44,9 +46,10 @@ public class Product implements Persistible {
 	@Size(max = 100)
 	private String code;
 	
-	@Column(name = "PROVIDER")
+	@ManyToOne
+	@JoinColumn(name = "PERSON_ID") 
 	@Size(max = 100)
-	private String provider;
+	private Person person;
 	
 	@Column(name = "ACTIVE")
 	private boolean active;
@@ -74,15 +77,7 @@ public class Product implements Persistible {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
-	public String getProvider() {
-		return provider;
-	}
-
-	public void setProvider(String provider) {
-		this.provider = provider;
-	}
-
+	
 	public String getCode() {
 		return code;
 	}
@@ -98,5 +93,14 @@ public class Product implements Persistible {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+    
+		
 }

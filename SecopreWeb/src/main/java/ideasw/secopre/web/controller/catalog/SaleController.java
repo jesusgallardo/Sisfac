@@ -64,7 +64,7 @@ public class SaleController extends AuthController {
 				
 				
 				for (Person p : personas) {
-					if (p.getPersonCode().equals("CLIENTE"))
+//					if (p.getPersonCode().equals("CLIENTE"))
 					{
 					personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
 					}
@@ -117,7 +117,7 @@ public class SaleController extends AuthController {
 		
 		
 		
-List<Product> producto = baseService.findAll(Product.class);
+        List<Product> producto = baseService.findAll(Product.class);
 		
 		//Lista de Productos 
 				HashMap<Long, String> productMap = new HashMap<Long, String>();
@@ -131,7 +131,7 @@ List<Product> producto = baseService.findAll(Product.class);
 		//Lista de Personas
 				HashMap<Long, String> personMap = new HashMap<Long, String>();
 				for (Person p : personas) {
-					if (p.getPersonCode().equals("CLIENTE"))
+//					if (p.getPersonCode().equals("CLIENTE"))
 					{
 					personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
 				}

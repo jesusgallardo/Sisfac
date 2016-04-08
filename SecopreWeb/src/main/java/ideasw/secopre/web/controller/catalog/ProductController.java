@@ -2,6 +2,10 @@ package ideasw.secopre.web.controller.catalog;
 
 
 
+import java.util.List;
+import java.util.HashMap;
+
+import ideasw.secopre.model.catalog.Person;
 import ideasw.secopre.model.catalog.Product;
 import ideasw.secopre.service.AccessService;
 import ideasw.secopre.web.SecopreConstans;
@@ -43,6 +47,20 @@ public class ProductController extends AuthController {
 			RequestMethod.POST })
 	public String getProductList(ModelMap model, RedirectAttributes attributes) {
 		
+    List<Person> personas = baseService.findAll(Person.class);
+		
+		//Lista de Personas
+				HashMap<Long, String> personMap = new HashMap<Long, String>();
+				
+				
+				
+				for (Person p : personas) {
+//					if (p.getPersonCode().equals("CLIENTE"))
+					{
+					personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
+					}
+				}
+				model.addAttribute("personList", personMap);
 		
 		Product p = new Product();
 		model.addAttribute("productList", baseService.findAll(Product.class));
@@ -87,6 +105,17 @@ public class ProductController extends AuthController {
 		
 		model.addAttribute("productList", baseService.findAll(Product.class));
 	
+		 List<Person> personas = baseService.findAll(Person.class);
+			
+			//Lista de Personas
+					HashMap<Long, String> personMap = new HashMap<Long, String>();
+					for (Person p : personas) {
+//						if (p.getPersonCode().equals("CLIENTE"))
+						{
+						personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
+						}
+					}
+					model.addAttribute("personList", personMap);
 		
 		return SecopreConstans.MV_CAT_PRODUCT_ADD;
 	}
