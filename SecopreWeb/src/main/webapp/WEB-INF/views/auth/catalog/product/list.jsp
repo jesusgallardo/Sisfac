@@ -45,10 +45,9 @@
 								<th class="table-checkbox">
 									<input type="checkbox" class="group-checkable" data-set="#ProductTable .checkboxes"/>
 								</th>
+								<th><spring:message code="application.pages.admin.product.fatherLastName"/></th>
 								<th><spring:message code="application.pages.admin.product.name"/></th>
 								<th><spring:message code="application.pages.admin.product.secondName"/></th>
-								<th><spring:message code="application.pages.admin.product.fatherLastName"/></th>
-								<th><spring:message code="application.pages.admin.product.motherLastName"/></th>
 								<th><spring:message code="application.pages.admin.users.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
@@ -60,16 +59,13 @@
 										<input type="checkbox" class="checkboxes" value="1"/>
 									</td>
 									<td>
+										 ${productItem.code}
+									</td>
+									<td>
 									     ${productItem.description}
 									</td>
 									<td>
 										 ${productItem.price}
-									</td>
-									<td>
-										 ${productItem.code}
-									</td>
-									<td>
-									     ${productItem.person.name}
 									</td>
 									<td>
 									<c:choose>

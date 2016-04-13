@@ -217,7 +217,7 @@
 																<div class="form-control-focus">
 																</div>
 																<span id="mobileTelepone-error" class="help-block help-block-error"><spring:message code="application.pages.admin.persons.mobileTelepone.help"/></span>
-																<i class="icon-phone"></i>
+																<i class="fa fa-tty"></i>
 															</div>
 														</div>
 													</div>

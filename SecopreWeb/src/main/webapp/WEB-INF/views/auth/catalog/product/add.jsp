@@ -56,11 +56,11 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input id="code" name="code" value="${product.code}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.product.fatherLastName"/>'>
+																<input id="code" name="code" value="${product.code}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.product.code.placeholder"/>'>
 																<div class="form-control-focus">
 																</div>
-																<span id = "code-error" class="help-block help-block-error"><spring:message code="application.pages.admin.product.fatherLastName"/></span>
-																<i class="fa fa-female"></i>
+																<span id = "code-error" class="help-block help-block-error"><spring:message code="application.pages.admin.product.fatherLastName.help"/></span>
+																<i class="fa fa-inbox"></i>
 															</div>
 														</div>
 													</div>
@@ -77,7 +77,7 @@
 																<span id="description-error" class="help-block help-block-error">
 																<spring:message code="application.pages.admin.product.name.help"/>
 																</span>
-																<i class="icon-user"></i>
+																<i class="fa fa-pie-chart"></i>
 															</div>
 														</div>
 													</div>
@@ -93,7 +93,7 @@
 																<div class="form-control-focus">
 																</div>
 																<span id="price-error" class="help-block help-block-error"><spring:message code="application.pages.admin.product.secondName.help"/></span>
-																<i class="icon-user"></i>
+																<i class="fa fa-money"></i>
 															</div>
 														</div>
 													</div>	
@@ -171,12 +171,12 @@
 											<div class="col-md-offset-3 col-md-9">
 											   <c:choose>
 											        <c:when test="${(product.id!=null)}">
-											           <a href="javascript:initList();" class="btn red" >
+											           <a href="javascript:initProductList();" class="btn red" >
 													   <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
 													   </a>  
 													 </c:when>   
 									              <c:otherwise>		
-											           <a href="javascript:showList('');" class="btn red" >
+											           <a href="javascript:showList('Product');" class="btn red" >
 													   <spring:message code="application.cancel"/> <i class="fa fa-times"></i>
 													   </a>  	
 									              </c:otherwise>
