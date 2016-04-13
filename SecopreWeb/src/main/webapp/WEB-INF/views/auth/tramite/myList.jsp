@@ -7,7 +7,7 @@
 						<div class="portlet-title">
 							<div class="caption font-green-haze">
 								<i class="icon-settings font-green-haze"></i>
-								<span class="caption-subject bold uppercase">Estatus de sus Trámites</span>
+								<span class="caption-subject bold uppercase">Estatus de sus Ordenes de Venta</span>
 							</div>
 							<div class="actions">
 								<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
@@ -18,6 +18,62 @@
 						<div class="portlet-body">
 							<div class="table-toolbar">
 								<div class="row">
+								
+								<div class="col-md-6">
+										<div class="btn-group">
+											
+											<input type="hidden" name="canCapture" id="canCaptureValue" value="${canUserCapture}">
+											
+											<c:if test="${canUserCapture == true}">
+												<button id="canCaptureButton" class="btn green" onclick="sendRequestJQ('auth/tram/add','dashboard','initTramitePage()','GET');">
+													<spring:message code="application.add"/> <i class="fa fa-plus"></i>
+												</button>
+											</c:if>
+											
+											<c:if test="${canUserCapture == false}">
+												<a id="canCaptureButton" class="btn green canCaptureButton disabledWithPopup">
+													<spring:message code="application.add"/> <i class="fa fa-plus"></i>
+												</a>
+												
+												<!-- tooltip popup -->
+												<div class="tooltip-popup">	
+													<div class="qtip-titlebar">
+										        		<div id="qtip-{id}-title" class="qtip-title">Captura No disponible</div>
+										    		</div>
+											    	<div id="qtip-{id}-content" class="qtip-content ui-widget-content" aria-atomic="true" style="background-color:white">
+	       
+														<table class="popupContainer">
+															<tbody>
+																<c:if test="${isValidDate == false}">
+																	<tr> 
+																		<td>
+																		<a href="#" onclick="showDueDates();" >
+																			Fecha de Captura no valida
+																		</a>
+																		</td>
+																	</tr>
+																</c:if>
+																<c:if test="${hasUserRequestInProcess == true}">
+																	<tr>
+																		<td>
+																			<a href="#" onclick="sendRequestJQ('auth/tram/mylist','dashboard','initMyTramiteListPage()','GET');" >
+																			Cuenta con solicitudes activas en etapa de captura
+																		</a>
+																		</td>
+																	</tr>
+																</c:if>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												
+											</c:if>
+											
+											
+										</div>
+									</div>
+								
+								
 									<div class="col-md-6">
 									</div>
 									<div class="col-md-6">
@@ -46,7 +102,7 @@
 							<thead>
 							<tr>
 								<th style="visible:false;">id</th>
-								<th>Solicitud</th>
+								<th>Orden</th>
 								<th>Justificación</th>
 								<th>Distrito</th>
 								<th>Trámite</th>
@@ -68,14 +124,17 @@
 										<td>${inboxItem.creationDateStr}</td>
 										
 										<td>
-											<c:if test="${inboxItem.requestFinished == true}">
-												<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
+										<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');">
 													${inboxItem.nextDescription}
 												</a>
-											</c:if>
-											<c:if test="${inboxItem.requestFinished == false}">
-												${inboxItem.nextDescription}
-											</c:if>
+<%-- 											<c:if test="${inboxItem.requestFinished == true}"> --%>
+<%-- 												<a href="#" onclick="sendRequestJQ('${inboxItem.nextStageURL}','dashboard','${inboxItem.nextStageJSFunction}','GET');"> --%>
+<%-- 													${inboxItem.nextDescription} --%>
+<!-- 												</a> -->
+<%-- 											</c:if> --%>
+<%-- 											<c:if test="${inboxItem.requestFinished == false}"> --%>
+<%-- 												${inboxItem.nextDescription} --%>
+<%-- 											</c:if> --%>
 										</td>
 										
 										<td>

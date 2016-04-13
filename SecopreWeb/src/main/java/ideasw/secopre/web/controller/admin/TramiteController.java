@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -76,7 +77,7 @@ public class TramiteController extends AuthController {
 		model.addAttribute("isValidDate", true);
 		
 				
-		return SecopreConstans.MV_TRAM_LIST;
+		return SecopreConstans.MV_TRAM_MY_LIST;
 	}
 
 	@RequestMapping(value = "tram/add", method = { RequestMethod.POST })
@@ -111,11 +112,17 @@ public class TramiteController extends AuthController {
 				LOG.info("Tramite no requiere de ejecucion complementaria");
 			}
 			
-			return "redirect:/auth/tram/list";
+			Long stageConfigId = 2L;
+			String formalityCode = "2";
+			Integer executeInnerJs = 0;
+			
+			//return "redirect:/auth/wf/capture/partial/" + formalityCode + "/" + requestId + "/" + stageConfigId + "/" + ijs;
+			return "redirect:/auth/wf/capture/partial/" +f.getCode() + "/" + requestId + "/" + stageConfigId + "/" + executeInnerJs;
+			//return "redirect:/auth/tram/mylist";
 		}catch(Exception ex){
 			System.out.println(ex);
 			ex.printStackTrace();
-			return "redirect:/auth/tram/list";
+			return "redirect:/auth/tram/mylist";
 		}
 	}
 	
@@ -176,6 +183,7 @@ public class TramiteController extends AuthController {
 
 		List<Inbox> inboxList = accessNativeService.getMyInboxByUserId(loggedUser.getId());
 		
+		model.addAttribute("canUserCapture", true);
 		model.addAttribute("inboxList", inboxList);	
 		return SecopreConstans.MV_TRAM_MY_LIST;
 	}

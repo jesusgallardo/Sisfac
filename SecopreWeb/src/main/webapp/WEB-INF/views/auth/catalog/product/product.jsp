@@ -3,7 +3,7 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
  				<div class="page-title"> 
- 					<h1>Catalogo de Pruductos</h1> 
+ 					<h1>Catalogo de Productos</h1> 
  				</div> 
 			</div>
 			<!-- END PAGE HEAD -->
