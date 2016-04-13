@@ -44,7 +44,7 @@
 									<div class="form-actions margin-top-10">
 										<div class="row">
 											<div class="col-md-offset-2 col-md-10">
-												<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/list','dashboard','noAction()','GET');"><spring:message code="application.back"/></button>
+												<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/mylist','dashboard','noAction()','GET');"><spring:message code="application.back"/></button>
 												<!-- <button type="button" class="btn default" id="partialSave">Guardado Parcial</button> -->
 												<button type="button" class="btn green" id="saveAndContinue">Finalizar Captura</button>
 											</div>

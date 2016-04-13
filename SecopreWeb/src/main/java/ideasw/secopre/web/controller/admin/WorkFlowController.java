@@ -90,6 +90,10 @@ public class WorkFlowController extends AuthController {
 			ModelMap model, RedirectAttributes attributes, Principal principal) {
 		
 		LOG.info("Cargando informacion parcial");
+		LOG.info("requestId" + requestId  );
+		LOG.info("stageConfigId" + stageConfigId  );
+		LOG.info("formalityCode" + formalityCode.toString()  );
+		LOG.info("executeInnerJs" + executeInnerJs );
 		
 		Request requestForm = accessNativeService.getRequestAndPartialDetailById(requestId);
 		
