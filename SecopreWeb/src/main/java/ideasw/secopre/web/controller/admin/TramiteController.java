@@ -125,9 +125,9 @@ public class TramiteController extends AuthController {
 				LOG.info("Tramite no requiere de ejecucion complementaria");
 			}
 			
-			Long stageConfigId = 2L;
-			String formalityCode = "2";
-			Integer executeInnerJs = 0;
+//			Long stageConfigId = 2L;
+//			String formalityCode = "2";
+//			Integer executeInnerJs = 0;
 			
 			//return "redirect:/auth/wf/capture/partial/" + formalityCode + "/" + requestId + "/" + stageConfigId + "/" + ijs;
 			//return "redirect:/auth/wf/capture/partial/" +f.getCode() + "/" + requestId + "/" + stageConfigId + "/" + executeInnerJs;
