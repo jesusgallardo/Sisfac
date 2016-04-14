@@ -52,17 +52,17 @@
 									</div>
 									
 									<!-- justificacion -->
-									<div class="form-group form-md-line-input">
-										<label class="col-md-12 control-label" for="justification" style="text-align:left;"><spring:message code="application.pages.tramite.add.justification"/></label>
-										<div class="col-md-12">
-											<form:textarea path="justification" id="justification" class="form-control" rows="2" />
-											<div class="form-control-focus">
-											</div>
-											<span class="help-block">
-												<spring:message code="application.pages.tramite.add.notEmpty"/>
-											</span>
-										</div>
-									</div>
+<!-- 									<div class="form-group form-md-line-input"> -->
+<%-- 										<label class="col-md-12 control-label" for="justification" style="text-align:left;"><spring:message code="application.pages.tramite.add.justification"/></label> --%>
+<!-- 										<div class="col-md-12"> -->
+<%-- 											<form:textarea path="justification" id="justification" class="form-control" rows="2" /> --%>
+<!-- 											<div class="form-control-focus"> -->
+<!-- 											</div> -->
+<!-- 											<span class="help-block"> -->
+<%-- 												<spring:message code="application.pages.tramite.add.notEmpty"/> --%>
+<!-- 											</span> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
 								
 								</div>
 								

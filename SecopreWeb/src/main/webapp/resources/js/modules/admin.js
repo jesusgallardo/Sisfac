@@ -1922,7 +1922,7 @@ function initUserValidations(idUser) {
  * global
  */
 function initTramitePage() {
-
+	$('select').select2();
 	// se obtiene la forma
 	var requestForm = $("#requestForm");
 	var error = $('.alert-danger', requestForm);
@@ -1944,10 +1944,11 @@ function initTramitePage() {
 			districtId : {
 				required : true,
 				min : 1
-			},
-			justification : {
-				required : true
 			}
+//			,
+//			justification : {
+//				required : true
+//			}
 		},
 
 		invalidHandler : function(event, validator) { // display error alert

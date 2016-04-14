@@ -587,8 +587,7 @@
 						  LEFT OUTER JOIN ADDRESS A
 							ON D.ADDRESS_ID = A.id
 						       JOIN (SELECT DISTINCT(ED.DISTRICT_ID) FROM secopre.ENTRYDISTRICT ED) T ON (D.ID = T.DISTRICT_ID)
-						       JOIN secopre.STATE S ON (D.STATE_ID = S.ID)
-						       JOIN secopre.DISTRICT_USER DU ON (DU.DISTRICT_ID = D.ID AND DU.USER_ID =  :userId)
+						       JOIN secopre.STATE S ON (D.STATE_ID = S.ID)						 
 						       ORDER BY CONVERT(D.NUMBER,UNSIGNED INTEGER)
 					]]>
 				</prop>

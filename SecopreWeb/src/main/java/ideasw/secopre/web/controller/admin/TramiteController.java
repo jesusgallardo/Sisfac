@@ -10,7 +10,7 @@ import ideasw.secopre.model.catalog.District;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.web.SecopreConstans;
 import ideasw.secopre.web.controller.base.AuthController;
-
+import ideasw.secopre.model.catalog.Person;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.Principal;
@@ -44,17 +44,28 @@ public class TramiteController extends AuthController {
 		
 		User loggedUser = baseService.findByProperty(User.class, "username", principal.getName()).get(0);
 		
-		List<Formality> formalities = accessNativeService.getFormalityAvailableByUser(loggedUser);
-		
-		HashMap<Long, String> formalitiesMap = new HashMap<Long, String>();
-		for (Formality f : formalities) {
-		   formalitiesMap.put(f.getFormalityId(), f.getDescription());
+//		List<Formality> formalities = accessNativeService.getFormalityAvailableByUser(loggedUser);
+//		
+//		HashMap<Long, String> formalitiesMap = new HashMap<Long, String>();
+//		for (Formality f : formalities) {
+//		   formalitiesMap.put(f.getFormalityId(), f.getDescription());
+//		}
+        
+		List<Person> personas = baseService.findAll(Person.class);
+		//Lista de Personas
+		HashMap<Long, String> personMap = new HashMap<Long, String>();
+		for (Person p : personas) {
+		   {
+			 personMap.put(p.getId(),p.getName().concat(" ").concat(p.getSecondName().concat(" ").concat(p.getFatherLastName().concat(" ").concat(p.getMotherLastName()))) );
+		   }
 		}
 		
 
 		Request requestForm = new Request();
 		
-		model.addAttribute("formalities", formalitiesMap);
+	
+		model.addAttribute("formalities", personMap);
+//		model.addAttribute("formalities", formalitiesMap);
 		model.addAttribute("districts", accessNativeService.getValidDistrictsMapByUserId(loggedUser.getId()));
 		model.addAttribute("requestForm", requestForm);
 		
@@ -101,6 +112,8 @@ public class TramiteController extends AuthController {
 			requestForm.setRequestId(requestId);
 			requestForm.setFolio(folio);
 			requestForm.setRequestIdByDistrict(requestIdByDistrict);
+			requestForm.setFormalityId(1L);
+			
 			
 			accessNativeService.startFormality(requestForm, loggedUser.getId());
 			
@@ -117,8 +130,8 @@ public class TramiteController extends AuthController {
 			Integer executeInnerJs = 0;
 			
 			//return "redirect:/auth/wf/capture/partial/" + formalityCode + "/" + requestId + "/" + stageConfigId + "/" + ijs;
-			return "redirect:/auth/wf/capture/partial/" +f.getCode() + "/" + requestId + "/" + stageConfigId + "/" + executeInnerJs;
-			//return "redirect:/auth/tram/mylist";
+			//return "redirect:/auth/wf/capture/partial/" +f.getCode() + "/" + requestId + "/" + stageConfigId + "/" + executeInnerJs;
+			return "redirect:/auth/tram/mylist";
 		}catch(Exception ex){
 			System.out.println(ex);
 			ex.printStackTrace();
