@@ -2300,17 +2300,17 @@ function initProductValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		// ignore : "", // validate all fields including form hidden input
 		rules : {
-			description : {
-				required : true,
-				maxlength : 30
-			},
-			price : {
-				required : true,
-				maxlength : 30
-			},
 			code : {
 				required : true,
 				maxlength : 30
+			},
+			description : {
+				required : true,
+				maxlength : 100
+			},
+			price : {
+				number : true,
+				maxlength : 10
 			},
 			provider : {
 				required : true,

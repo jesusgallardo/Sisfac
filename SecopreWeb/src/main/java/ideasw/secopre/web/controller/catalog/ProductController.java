@@ -81,6 +81,12 @@ public class ProductController extends AuthController {
 			else
 			{
 			   Product productEdit = baseService.findById(Product.class , product.getId());	
+			   //productEdit.setActive(active);
+			   productEdit.setCode(product.getCode());
+			   productEdit.setDescription(product.getDescription());
+			   productEdit.setPerson(product.getPerson());
+			   productEdit.setPrice(product.getPrice());
+			   
 			   
 			   product = productEdit;
 			}
