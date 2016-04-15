@@ -3348,6 +3348,7 @@ function movements2Capture() {
 		requestForm.find(".entry").prop("disabled", false);
 		requestForm.find(".product").prop("disabled", false);
 		requestForm.find(".monthAmount").prop("disabled", false);
+		requestForm.find(".price").prop("disabled", false);
 		// var isCorrect = movementController.validate();
 		requestForm.find('#nextStageValueCode').val("SOLCOMP");
 		submitAjaxJQ('requestForm', 'dashboard', '');
