@@ -49,6 +49,7 @@
 								<th><spring:message code="application.pages.admin.persons.secondName"/></th>
 								<th><spring:message code="application.pages.admin.persons.fatherLastName"/></th>
 								<th><spring:message code="application.pages.admin.persons.motherLastName"/></th>
+								<th><spring:message code="application.pages.admin.persons.personcode"/></th>
 								<th><spring:message code="application.pages.admin.users.active"/></th>
 								<th><spring:message code="application.actions"/></th>
 							</tr>
@@ -71,7 +72,9 @@
 									<td>
 										 ${personItem.motherLastName}
 									</td>									
-									
+									<td>
+										 ${personItem.personCode}
+									</td>
 									<td>
 									<c:choose>
 									    <c:when test="${personItem.activo}">

@@ -5,20 +5,20 @@
 			<div class="page-head">
 				<!-- BEGIN PAGE TITLE -->
 				<div class="page-title">
-					<h1>Dashboard <small>estadisticas</small></h1>
+					<h1>Conteo de Estadisticas</h1>
 				</div>
 			</div>
 			
 			<!-- END PAGE HEAD -->
 			<!-- BEGIN PAGE BREADCRUMB -->
-			<ul class="page-breadcrumb breadcrumb">
-				<li>
-					<a href="javascript:;">Home</a><i class="fa fa-circle"></i>
-				</li>
-				<li class="active">
-					 Dashboard
-				</li>
-			</ul>
+<!-- 			<ul class="page-breadcrumb breadcrumb"> -->
+<!-- 				<li> -->
+<!-- 					<a href="javascript:;">Home</a><i class="fa fa-circle"></i> -->
+<!-- 				</li> -->
+<!-- 				<li class="active"> -->
+<!-- 					 Dashboard -->
+<!-- 				</li> -->
+<!-- 			</ul> -->
 
             <!-- BEGIN DASHBOARD STATS 1-->
             <div class="row">
@@ -29,9 +29,9 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value='<c:out value="${balance.annualAmount}"/>'><c:out value="${balance.annualAmount}"/></span> $
+                                <span data-counter="counterup" data-value='<c:out value="${balance.annualAmount}"/>'><c:out value="${balance.annualAmount}"/></span> # 
                             </div>
-                            <div class="desc">Presupuesto Anual</div>
+                            <div class="desc">Venta Mensuales</div>
                         </div>
                         <a class="more" href="javascript:;">
                             <i class="m-icon-swapright m-icon-white"></i>
@@ -45,8 +45,8 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing}"/>"><c:out value="${balance.budgetAsing}"/></span> $
-                            	<div class="desc">Presupuesto Modificado</div>
+                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing}"/>"><c:out value="${balance.budgetAsing}"/></span> #
+                            	<div class="desc">Vantas Anuales</div>
                             </div>
                         </div>
                         <a class="more" href="javascript:;">
@@ -62,9 +62,9 @@
                         </div>
                         <div class="details">
                             <div class="number">
-                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetCommit}"/>"><c:out value="${balance.budgetCommit}"/></span> $
+                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetCommit}"/>"><c:out value="${balance.budgetCommit}"/></span># 
                             </div>
-                            <div class="desc">Total Comprometido</div>
+                            <div class="desc">Facturas Mensuales</div>
                         </div>
                         <a class="more" href="javascript:;">
                             <i class="m-icon-swapright m-icon-white"></i>
@@ -79,8 +79,8 @@
                         </div>
                         <div class="details">
                             <div class="number"> 
-                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing - balance.budgetCommit}"/>"><c:out value="${balance.budgetAsing - balance.budgetCommit}"/></span> $
-                            	<div class="desc"> Disponible</div>
+                                <span data-counter="counterup" data-value="<c:out value="${balance.budgetAsing - balance.budgetCommit}"/>"><c:out value="${balance.budgetAsing - balance.budgetCommit}"/></span> #
+                            	<div class="desc">Facturas Anuales</div>
                             </div>
                         </div>
                         <a class="more" href="javascript:;">

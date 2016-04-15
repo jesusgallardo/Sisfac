@@ -88,18 +88,18 @@
 														</label>
 														<div class="col-md-10">
 															<div class="input-icon">
-																<input name="price"  id="price" value="${product.price}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.product.secondName.placeholder"/>' aria-required="true" aria-describedby="price-error" aria-invalid="true" 
+																<input  id="price" name="price" value="${product.price}" type="text" class="form-control" placeholder='<spring:message code="application.pages.admin.product.secondName.placeholder"/>' aria-required="true" aria-describedby="price-error" aria-invalid="true" 
 																aria-required="true" aria-describedby="name-error" aria-invalid="true">
 																<div class="form-control-focus">
 																</div>
 																<span id="price-error" class="help-block help-block-error"><spring:message code="application.pages.admin.product.secondName.help"/></span>
-																<i class="fa fa-money"></i>
+																<i class="fa fa-usd"></i>
 															</div>
 														</div>
 													</div>	
 																																							
 													<div class="form-group form-md-line-input has-danger">
-										                <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.users.selectPerson"/>
+										                <label class="col-md-2 control-label" for="form_control_1"><spring:message code="application.pages.admin.product.motherLastName"/>
 										                    <span class="required">* </span> 
 										                </label>
 										                <div class="col-md-4">
@@ -110,7 +110,7 @@
 												            </form:select>
 												            <div class="form-control-focus"></div>
 												            <span id="person-error" class="help-block help-block-error">
-													        <spring:message code="application.pages.admin.users.selectPerson"/>
+													        <spring:message code="application.pages.admin.product.motherLastName"/>
 												            </span>
 												            <i class="icon-user"></i>
 										                    </div>
@@ -123,14 +123,23 @@
 											<div class="tab-pane" id="tab2">
 												<h3 class="block">Confirmación</h3>
 	
-												
 									            <h4 class="form-section">Datos Generales</h4>
+									            									            
+												<div class="form-group">
+										           <label class="control-label col-md-3"><spring:message
+													  code="application.pages.admin.product.fatherLastName" />
+											       </label>
+										           <div class="col-md-4">
+											         <p class="form-control-static" data-display="code"></p>
+										           </div>
+									            </div>	
+									            
 									            <div class="form-group">
 										            <label class="control-label col-md-3"><spring:message
 													code="application.pages.admin.product.name" />
 													</label>
 										            <div class="col-md-4">
-											           <p class="form-control-static" data-display="name"></p>
+											           <p class="form-control-static" data-display="description"></p>
 										            </div>
 									            </div>
 									            
@@ -139,19 +148,12 @@
 													  code="application.pages.admin.product.secondName" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="secondName"></p>
+											         <p class="form-control-static" data-display="price"></p>
 										           </div>
 									            </div>	
 									            
 									            
-									            <div class="form-group">
-										           <label class="control-label col-md-3"><spring:message
-													  code="application.pages.admin.product.fatherLastName" />
-											       </label>
-										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="fatherLastName"></p>
-										           </div>
-									            </div>		
+									            	
 									            
 									            
 									            <div class="form-group">
@@ -159,7 +161,7 @@
 													  code="application.pages.admin.product.motherLastName" />
 											       </label>
 										           <div class="col-md-4">
-											         <p class="form-control-static" data-display="motherLastName"></p>
+											         <p class="form-control-static" data-display="person.id"></p>
 										           </div>
 									            </div>		
 									         																	

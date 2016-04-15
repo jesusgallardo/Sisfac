@@ -16,7 +16,7 @@
 				<li class="start active ">
 					<a href="javascript:;">
 					<i class="icon-home"></i>
-					<span class="title">Mi Dashboard</span>
+					<span class="title">Inicio</span>
 					</a>
 				</li>
 				<c:forEach items="${menus}" var="itemMenu" varStatus="itemStatus">
