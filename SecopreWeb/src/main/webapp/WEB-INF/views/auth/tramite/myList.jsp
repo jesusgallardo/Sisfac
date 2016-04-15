@@ -103,9 +103,8 @@
 							<tr>
 								<th style="visible:false;">id</th>
 								<th>Orden</th>
-								<th>Justificación</th>
-								<th>Distrito</th>
-								<th>Trámite</th>
+								<th>Cliente</th>
+								<th>Estado</th>
 								<th>Importe</th>
 								<th>Fecha Creación</th>
 								<th>Siguiente Etapa</th>
@@ -119,7 +118,6 @@
 										<td>${inboxItem.folio}</td>
 										<td>${inboxItem.justification}</td>
 										<td>${inboxItem.districtDescription}</td>
-										<td>${inboxItem.formalityDescription}</td>
 										<td>${inboxItem.totalAmountStr}</td>
 										<td>${inboxItem.creationDateStr}</td>
 										
