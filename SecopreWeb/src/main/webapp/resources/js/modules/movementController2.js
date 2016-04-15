@@ -22,7 +22,8 @@ var movementController2 = {
 
 	/* titulos en función del tipo de movimiento seleccionado */
 	titles : {
-		al : '<i class="fa fa-cogs"></i>Ampliaci&oacute;n L&iacute;quida',
+		al : '<i class="fa fa-cogs"></i>Detalle de Venta',
+//		al : '<i class="fa fa-cogs"></i>Ampliaci&oacute;n L&iacute;quida',
 		rl : '<i class="fa fa-cogs"></i>Reducci&oacute;n L&iacute;quida',
 		ac : '<i class="fa fa-cogs"></i>Ampliaci&oacute;n Compensada',
 		rc : '<i class="fa fa-cogs"></i>Reducci&oacute;n Compensada'
@@ -134,12 +135,20 @@ var movementController2 = {
 				self.startSlider(self, idx, initialMonth, finalMonth, grid);
 				
 				//fix para dar formato a los montos
-				var monthOriginalValue = element.find(self.getId(grid, idx, "monthAmount")).val();				
-				var monthStr = monthOriginalValue.replace(",","");				
+				var monthOriginalValue = element.find(self.getId(grid, idx, "monthAmount")).val();
+				var monthPrice = element.find(self.getId(grid, idx, "price")).val();
+				
+				var monthStr = monthOriginalValue.replace(",","");	
+				var monthPrice = monthPrice.replace(",","");
 				//var monthAmount = parseFloat(element.find(self.getId(grid, idx, "monthAmount")).val());
 				var monthAmount = parseFloat(monthStr);
-				monthAmount = monthAmount.toFixed(2);				
+				var monthAmountPrice = parseFloat(monthPrice);
+				
+				monthAmount = monthAmount.toFixed(2);	
+				monthAmountPrice = monthAmountPrice.toFixed(2);
+				
 				element.find(self.getId(grid, idx, "monthAmount")).val(monthAmount);
+				element.find(self.getId(grid, idx, "price")).val(monthAmountPrice);
 				
 				/*
 				var totalOriginalValue = element.find(self.getId(grid, idx, "totalAmount")).val();
@@ -157,7 +166,8 @@ var movementController2 = {
 				// asignar eventos de cambio
 				self.addOnChangeEvent(self, grid, idx,"programaticKeyId", true);
 				self.addOnChangeEvent(self, grid, idx,"entryId", false);
-				self.updateAmounts(self, grid, idx,"monthAmount");
+				//self.updateAmounts(self, grid, idx,"monthAmount");
+				//self.updateAmounts(self, grid, idx,"price");
 
 				$(grid).find("[data-name='programaticKey'] select").each(function() {
 					var currentSelect = $(this);
@@ -220,6 +230,7 @@ var movementController2 = {
 			$(document).find("#requestForm").find(".pk").prop("disabled",false);
 			$(document).find("#requestForm").find(".entry").prop("disabled",false);
 			$(document).find("#requestForm").find(".monthAmount").prop("disabled",false);
+			$(document).find("#requestForm").find(".price").prop("disabled",false);
 			submitAjaxJQWithAction('requestForm', 'dashboard','movements2Capture','auth/wf/capture/partial/movements2');
 		});
 		
@@ -253,6 +264,11 @@ var movementController2 = {
 		e.find("[data-name='entry'] select").attr("name",self.getPath(grid, nextIndex, "entryId"))
 		.attr("id",self.getId(grid, nextIndex, "entryId", 2)).removeAttr("multiple");
 		e.find("[data-name='entry']").find("input[type='hidden']").remove();
+		
+		// product
+		e.find("[data-name='product'] select").attr("name",self.getPath(grid, nextIndex, "productId"))
+		.attr("id",self.getId(grid, nextIndex, "productId", 2)).removeAttr("multiple");
+		e.find("[data-name='product']").find("input[type='hidden']").remove();
 
 		// sliderControl
 		e.find("[data-name='sliderControl'] #sliderControl").attr("id",self.getSliderId(grid).substring(1) + nextIndex);
@@ -264,6 +280,10 @@ var movementController2 = {
 		// monthAmount
 		e.find("[data-name='monthAmount'] input").attr("name",self.getPath(grid, nextIndex, "monthAmount"))
 		.attr("id",self.getId(grid, nextIndex, "monthAmount", 2)).attr("value","0");
+		
+		// price
+		e.find("[data-name='price'] input").attr("name",self.getPath(grid, nextIndex, "price"))
+		.attr("id",self.getId(grid, nextIndex, "price", 2)).attr("value","0");
 
 		// totalAmount
 		e.find("[data-name='totalAmount'] input").attr("name",self.getPath(grid, nextIndex, "totalAmount"))
@@ -303,6 +323,7 @@ var movementController2 = {
 			e.find("[data-name='initialMonthId']").val(data.initialMonth);
 			e.find("[data-name='finalMonthId']").val(data.finalMonthId);
 			e.find("[data-name='monthAmount'] input").val(data.monthAmount).attr("readonly", "true");
+			e.find("[data-name='price'] input").val(data.price).attr("readonly", "true");
 		}
 
 		grd.find("tbody").append(e);
@@ -350,7 +371,8 @@ var movementController2 = {
 		self.addRemoveEvent(self, grid, nextIndex);
 		self.addInfoEvent(self, grid, nextIndex);
 		self.addCloneEvent(self, grid, nextIndex);
-		self.updateAmounts(self, grid, nextIndex, "monthAmount");
+		//self.updateAmounts(self, grid, nextIndex, "monthAmount");
+		self.updateAmounts(self, grid, nextIndex, "price");
 
 		$(document).find("#cloneIdx" + nextIndex).hide();
 
@@ -370,6 +392,7 @@ var movementController2 = {
 			});
 			// se dispara la actualizacion de montos
 			$(self.getId(grid, nextIndex, "monthAmount")).blur();
+			$(self.getId(grid, nextIndex, "price")).blur();
 
 		}
 		grd.find("tbody #noMovs").remove();
@@ -384,25 +407,32 @@ var movementController2 = {
 				self.getId(grid, index, "programaticKeyId")).val());
 		var monthAmount = parseFloat($(self.getId(grid, index, "monthAmount"))
 				.val());
+		var price = parseFloat($(self.getId(grid, index, "price"))
+				.val());
 		var data = {}
 		data.programaticKeyId = programaticKeyId;
 		data.entryId = entryId;
 		data.initialMonth = initialMonth;
 		data.finalMonth = finalMonth;
 		data.monthAmount = monthAmount;
+		data.price = price;
 		return data;
 	},
 	blockRow : function(self, grid, index, keepSlider, forceDisabled) {
 		var keepSlider = keepSlider || false;
 		$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true");
 		$(self.getId(grid, index, "entryId")).attr("readonly", "true");
+		$(self.getId(grid, index, "productId")).attr("readonly", "true")
 		$(self.getId(grid, index, "monthAmount")).attr("readonly", "true").keyup();
+		$(self.getId(grid, index, "price")).attr("readonly", "true").keyup();
 		$(self.getId(grid, index, "totalAmount")).attr("readonly", "true");
 		
 		if(forceDisabled){
 			$(self.getId(grid, index, "programaticKeyId")).attr("readonly", "true").prop("disabled",true);
 			$(self.getId(grid, index, "entryId")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "productId")).attr("readonly", "true").prop("disabled",true);
 			$(self.getId(grid, index, "monthAmount")).attr("readonly", "true").prop("disabled",true);
+			$(self.getId(grid, index, "price")).attr("readonly", "true").prop("disabled",true);
 		}
 		
 		var sliderId = self.getSliderId(grid) + index;
@@ -419,13 +449,17 @@ var movementController2 = {
 		var keepSlider = keepSlider || false;
 		$(self.getId(grid, index, "programaticKeyId")).removeAttr("readonly", "false");
 		$(self.getId(grid, index, "entryId")).removeAttr("readonly", "false");
+		$(self.getId(grid, index, "productId")).removeAttr("readonly", "false");
 		$(self.getId(grid, index, "monthAmount")).removeAttr("readonly", "false");
 		$(self.getId(grid, index, "totalAmount")).removeAttr("readonly", "false");
+		$(self.getId(grid, index, "price")).removeAttr("readonly", "false");
 		
 		if(forceDisabled){
 			$(self.getId(grid, index, "programaticKeyId")).removeAttr("readonly", "false").prop("disabled",false);
 			$(self.getId(grid, index, "entryId")).removeAttr("readonly", "false").prop("disabled",false);
+			$(self.getId(grid, index, "productId")).removeAttr("readonly", "false").prop("disabled",false);
 			$(self.getId(grid, index, "monthAmount")).removeAttr("readonly", "false").prop("disabled",false);
+			$(self.getId(grid, index, "price")).removeAttr("readonly", "false").prop("disabled",false);
 		}
 		
 		var sliderId = self.getSliderId(grid) + index;
@@ -474,6 +508,8 @@ var movementController2 = {
 			var initialMonth = parseInt($(self.getId(grid, nextIndex, "initialMonthId")).val());
 			var entryId = parseInt($(self.getId(grid, nextIndex, "entryId")).val());
 			var programaticKeyId = parseInt($(self.getId(grid, nextIndex, "programaticKeyId")).val());
+			var price = parseInt($(self.getId(grid, nextIndex, "price")).val());
+			var monthAmount = parseInt($(self.getId(grid, nextIndex, "monthAmount")).val());
 
 			var districtId = parseInt($("#districtId").val());
 			var entryId = parseInt($(self.getId(grid, nextIndex, "entryId")).val());
@@ -483,8 +519,8 @@ var movementController2 = {
 
 			function updateTotalAmounts() {
 				// se calcula el monto total del movimiento
-				total = parseFloat(((finalMonth - initialMonth) + 1) * that.value);
-
+				//total = parseFloat(((finalMonth - initialMonth) + 1) * that.value);
+                total = price * monthAmount;
 				// si el monto es mayor a cero, se elimina el error
 				if (parseInt(that.value) > 0) {
 					self.removeClassError(self.getId(grid, nextIndex,"monthAmount"));

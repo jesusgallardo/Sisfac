@@ -19,6 +19,7 @@ import ideasw.secopre.model.Entry;
 import ideasw.secopre.model.EntryDistrict;
 import ideasw.secopre.model.ProgrammaticKey;
 import ideasw.secopre.model.catalog.District;
+import ideasw.secopre.model.catalog.Product;
 import ideasw.secopre.model.security.User;
 import ideasw.secopre.service.AccessNativeService;
 import ideasw.secopre.service.EntryConfigService;
@@ -135,6 +136,17 @@ public class WorkFlowController extends AuthController {
 		
 		//Map<Long, String> conceptMap= accessNativeService.getConceptsMap();
 		List<Entry> concepts = accessNativeService.getConceptsMap();
+		
+		
+		List<Product> producto = baseService.findAll(Product.class);
+		//Lista de Productos 
+		HashMap<Long, String> productMap = new HashMap<Long, String>();
+		for (Product pr : producto) {
+			productMap.put(pr.getId(),pr.getDescription() );
+			}
+		model.addAttribute("productList", productMap);
+		
+		
 			
 		model.addAttribute("accountingTypes", accountingType);
 		model.addAttribute("conceptsList", concepts);

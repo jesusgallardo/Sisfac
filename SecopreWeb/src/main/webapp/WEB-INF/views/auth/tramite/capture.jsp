@@ -8,7 +8,7 @@
 						<div class="portlet-title">
 							<div class="caption font-green-haze">
 								<i class="icon-settings font-green-haze"></i>
-								<span class="caption-subject bold uppercase">Captura de informacion - ${requestForm.formalityName} | Folio ${folio}</span>
+								<span class="caption-subject bold uppercase">Captura de Detalle de Venta - | Venta ${folio}</span>
 							</div>
 							<div class="actions">
 								<a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
@@ -46,7 +46,7 @@
 											<div class="col-md-offset-2 col-md-10">
 												<button type="button" class="btn default" onclick="sendRequestJQ('auth/tram/mylist','dashboard','noAction()','GET');"><spring:message code="application.back"/></button>
 												<!-- <button type="button" class="btn default" id="partialSave">Guardado Parcial</button> -->
-												<button type="button" class="btn green" id="saveAndContinue">Finalizar Captura</button>
+												<button type="button" class="btn green" id="saveAndContinue">Finalizar Venta</button>
 											</div>
 										</div>
 									</div>

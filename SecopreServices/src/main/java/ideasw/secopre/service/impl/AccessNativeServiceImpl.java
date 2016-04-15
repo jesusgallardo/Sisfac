@@ -248,11 +248,11 @@ public class AccessNativeServiceImpl extends AccessNativeServiceBaseImpl impleme
 			}
 			
 			//si la siguiente etapa es de tramite finalizado, opera los movimientos
-			if(next.getIsOperated()){
+			//if(next.getIsOperated()){
 				//por cada movimiento a la alza, se suma el monto al distrito-patida-mes, al saldo acumulado
 				//por cada movimiento a la baja, se resta el monto al distrito-partido-mes, al saldo comprometido y al saldo acumulado
-				this.runOperation(requestId);
-			}
+			//	this.runOperation(requestId);
+			//}
 			
 			//operar o modificar monto comprometido si aplica
 			
@@ -749,6 +749,8 @@ private void insertMasiveMovements(List<Movement> list, Request request) throws 
 				.addValue("finalMonth", m.getFinalMonthId())
 				.addValue("monthAmount", m.getMonthAmountValue())
 				.addValue("totalAmount", m.getTotalAmountValue())
+				.addValue("productId",m.getProductId())
+				.addValue("price", m.getPriceValue())
 				.addValue("active", 1);
 		LOG.info("insertando movimiento");
 		LOG.info(m.toString());

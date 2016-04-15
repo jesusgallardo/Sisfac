@@ -16,6 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class Movement {
 	
+
+
+
+
+
 	//variables correspondientes al tipo de tramite de movimientos
 	private Long requestDetailId;
 	private Long requestId;
@@ -26,14 +31,38 @@ public class Movement {
 	private Integer initialMonthId;
 	private Integer finalMonthId;
 	private String monthAmount;
+	private String price;
 	private String totalAmount;
+	private Long productId;
 	
 	private Double monthAmountValue;
+	private Double priceValue;
 	private Double totalAmountValue;
 	
 	private boolean isSaved;
 	
 	private Integer removedElement = 0;
+	
+	public Long getProductId() {
+		return productId;
+	}
+	
+
+	public String getPrice() {
+		DecimalFormat formatter = new DecimalFormat("###,###,###.00");
+		String result =  formatter.format((this.priceValue == null ? 0 : this.priceValue));
+		return result;
+	}
+	
+	public void setPrice(String price) {
+		this.price = price;
+		this.priceValue = new Double(price.replace(",",""));
+	}
+	
+	
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
 	
 	public Long getRequestDetailId() {
 		return requestDetailId;
@@ -82,13 +111,13 @@ public class Movement {
 		String result =  formatter.format((this.monthAmountValue == null ? 0 : this.monthAmountValue));
 		return result;
 	}
+	
 	public void setMonthAmount(String monthAmount) {
 		this.monthAmount = monthAmount;
 		this.monthAmountValue = new Double(monthAmount.replace(",",""));
 	}
 	public String getTotalAmount() {
-		int months = (this.finalMonthId.intValue() - this.initialMonthId.intValue()) + 1;
-		Double total =  this.monthAmountValue * months;
+		Double total =  this.monthAmountValue * (this.priceValue == null ? 0 : this.priceValue);
 		DecimalFormat formatter = new DecimalFormat("###,###,###.00");
 		String result=  formatter.format((total == null ? 0 : total));
 		return result;
@@ -110,12 +139,15 @@ public class Movement {
 		", removedElement: "  + this.removedElement +
 		", programaticKeyId: " + this.programaticKeyId + 
 		", entryId: " + this.entryId + 
+		", productId: " + this.productId + 
 		", initialMonthId: " + this.initialMonthId + 
 		", finalMonthId: " + this.finalMonthId + 
 		", monthAmount: " + this.monthAmount + 
+		", price: " + this.price + 
 		", totalAmount: " + this.getTotalAmount() + 
 		", monthAmountValue: " + this.monthAmountValue + 
 		", totalAmountValue: " + this.totalAmountValue + 
+		", priceValue: " + this.priceValue + 
 		", isSaved: " + this.isSaved + "}";
 	}
 
@@ -128,9 +160,11 @@ public class Movement {
 		parameters.put("MOVEMENT_TYPE_ID", this.movementTypeId);
 	    parameters.put("PROGRAMATIC_KEY_ID", this.programaticKeyId);
 	    parameters.put("ENTRY_ID", this.entryId);
+	    parameters.put("PRODUCT_ID", this.productId);
 	    parameters.put("INITIAL_MONTH", this.initialMonthId);
 	    parameters.put("FINAL_MONTH", this.finalMonthId);
 	    parameters.put("MONTH_AMOUNT", this.monthAmount);
+	    parameters.put("PRICE", this.monthAmount);
 	    parameters.put("TOTAL_AMOUNT", this.getTotalAmount());
 	    parameters.put("CREATION_DATE", new Date());
 	    parameters.put("ACTIVE", 1);
@@ -151,6 +185,16 @@ public class Movement {
 	public Double getMonthAmountValue() {
 		return monthAmountValue;
 	}
+	
+	public Double getPriceValue() {
+		return priceValue;
+	}
+
+	public void setPriceValue(Double priceValue) {
+		this.priceValue = priceValue;
+	}
+	
+	
 	public void setMonthAmountValue(Double monthAmountValue) {
 		this.monthAmountValue = monthAmountValue;
 	}

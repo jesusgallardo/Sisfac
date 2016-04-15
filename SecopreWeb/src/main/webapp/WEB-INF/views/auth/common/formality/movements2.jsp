@@ -2,20 +2,23 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
+<form:hidden path="movementTypeId" />
+
 <!-- caja de opcione de tipo de movimiento -->
-<div data-name="movementTypeContainer" class="form-group form-md-line-input">
-	<label class="col-md-2 control-label" for="movementTypeId">Seleccione el tipo de movimiento</label>
-	<div class="col-md-4">
-		<form:select path="movementTypeId" id="movementTypeId" class="form-control">
-		   	<form:option value="-1" label="Seleccione..."/>
-						<form:options items="${movementTypes}" />
-		</form:select>
-		<div class="form-control-focus"></div>
-		<span class="help-block">
-			Debe seleccionar un tipo de movimiento
-		</span>
-	</div>
-</div>
+<!-- <div data-name="movementTypeContainer" class="form-group form-md-line-input"> -->
+<!-- 	<label class="col-md-2 control-label" for="movementTypeId">Seleccione el tipo de movimiento</label> -->
+<!-- 	<div class="col-md-4"> -->
+<%-- 		<form:select path="movementTypeId" id="movementTypeId" class="form-control"> --%>
+<%-- 		   	<form:option value="-1" label="Seleccione..."/> --%>
+<%-- 						<form:options items="${movementTypes}" /> --%>
+<%-- 		</form:select> --%>
+<!-- 		<div class="form-control-focus"></div> -->
+<!-- 		<span class="help-block"> -->
+<!-- 			Debe seleccionar un tipo de movimiento -->
+<!-- 		</span> -->
+<!-- 	</div> -->
+<!-- </div> -->
 
 <!-- grid de movimientos de disminucion -->
 <div class="portlet box green" id="substractComponent">
@@ -124,11 +127,11 @@
 <div class="portlet box green" id="addComponent">
 	<div class="portlet-title">
 		<div class="caption">
-			<i class="fa fa-cogs"></i>Ampliación Líquida
+			<i class="fa fa-cogs"></i>Orden de Ventas
 		</div>
 		<div class="actions">
-			<a href="javascript:;" class="btn green btn-sm addButton" id="addMov"><i class="fa fa-plus"></i>Agregar Movimiento </a>
-			<a href="javascript:;" class="btn green btn-sm" id="saveMov"><i class="fa fa-hdd-o"></i>Guardar Movimiento</a>
+			<a href="javascript:;" class="btn green btn-sm addButton" id="addMov"><i class="fa fa-plus"></i>Agregar Venta </a>
+			<a href="javascript:;" class="btn green btn-sm" id="saveMov"><i class="fa fa-hdd-o"></i>Guardar Ventas</a>
 		</div>
 	</div>
 	<div class="portlet-body">
@@ -137,19 +140,19 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>Clave Programatica</th>
-						<th>Partida</th>
-						<th>Rango meses</th>
+						<th>Producto</th>
 						<th></th>
-						<th>Monto Mensual</th>
+						<th>Cantidad</th> 
+						<th>Precio</th>
 						<th>Monto Total</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 				
 					<c:choose>
 					    <c:when test="${empty requestForm.upMovements}">
-					       <tr id="noMovs"><td colspan="6">No hay Movimientos Capturados</td><tr>
+					       <tr id="noMovs"><td colspan="6">No hay Ventas Capturadas</td><tr>
 					    </c:when>
 					    <c:otherwise>
 					        <c:forEach items="${requestForm.upMovements}" var="mov" varStatus="i">
@@ -158,38 +161,56 @@
 									<td data-name="deleteAction" class="buttonColumn">
 										<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rmvIdx${i.index}"><i class="fa fa-times"></i></a>
   										<c:if test="${mov.isSaved}">
-  											<a href="javascript:;" class="btn blue btn-xs default lastButton movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a>
+<%--   											<a href="javascript:;" class="btn blue btn-xs default lastButton movementComponent cloneButton" id="cloneIdx${i.index}"><i class="fa fa-copy"></i></a> --%>
   											<a href="javascript:;" class="btn btn-xs green lastButton movementComponent editButton" id="editIdx${i.index}"><i class="fa fa-edit"></i></a>
-  											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>		
+<%--   											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>		 --%>
 										</c:if>
 										<c:if test="${mov.isSaved == false}">
-											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a>
+<%-- 											<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent infoButton" id="infoIdx${i.index}"><i class="fa fa-info-circle"></i></a> --%>
 										</c:if>
   									</td>
 									
-									<td data-name="programaticKey">
-										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent pk" value="${mov.programaticKeyId}">
+<!-- 									<td data-name="programaticKey"> -->
+<%-- 										<form:select path="upMovements[${i.index}].programaticKeyId" class="form-control input-small movementComponent pk" value="${mov.programaticKeyId}"> --%>
+<%-- 											<form:option value="-1" label="Seleccione..."/> --%>
+<%-- 						    				<form:options items="${programaticKeys}" /> --%>
+<%-- 										</form:select> --%>
+<!-- 									</td> -->
+									
+									
+<!-- 									<td data-name="entry"> -->
+<%-- 										<form:select path="upMovements[${i.index}].entryId" class="form-control input-small movementComponent entry" value="${mov.entryId}"> --%>
+<%-- 											<form:option value="-1" label="Seleccione..."/> --%>
+<%-- 						    				<form:options items="${entries}" /> --%>
+<%-- 										</form:select> --%>
+<!-- 									</td> -->
+									
+									
+									<td data-name="product">
+										<form:select path="upMovements[${i.index}].productId" class="form-control input-small movementComponent product" value="${mov.productId}">
 											<form:option value="-1" label="Seleccione..."/>
-						    				<form:options items="${programaticKeys}" />
+						    				<form:options items="${productList}" />
 										</form:select>
 									</td>
-									<td data-name="entry">
-										<form:select path="upMovements[${i.index}].entryId" class="form-control input-small movementComponent entry" value="${mov.entryId}">
-											<form:option value="-1" label="Seleccione..."/>
-						    				<form:options items="${entries}" />
-										</form:select>
-									</td>
+									
+									
 									<td data-name="sliderControl">
-										<div class="input-small" style="padding-top:8px;">
-											<div id="upSliderControl${i.index}"></div>
+										<div hidden="true" class="input-small" style="padding-top:8px;">
+											<div hidden="true" id="upSliderControl${i.index}"></div>
 										</div>
 									</td>
-									<td data-name="monthLabels">
-										<div class="input-xsmall" style="padding-top:2px;">
-											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span>
-										</div>
+									
+<!-- 									<td data-name="monthLabels"> -->
+<!-- 										<div class="input-xsmall" style="padding-top:2px;"> -->
+<%-- 											<span id="upMovements${i.index}.lower-offset"></span>-<span id="upMovements${i.index}.upper-offset"></span> --%>
+<!-- 										</div> -->
+										
 									<td data-name="monthAmount">
 										<span>$</span><form:input path="upMovements[${i.index}].monthAmount" class="form-control input-small numbersOnly movementComponent monthAmount right" style="display:inline-block!Important;"/>
+									</td>	
+										
+									<td data-name="price">
+										<span>$</span><form:input path="upMovements[${i.index}].price" class="form-control input-small numbersOnly movementComponent price right" style="display:inline-block!Important;"/>
 									</td>
 									
 									<td data-name="totalAmount">
@@ -227,31 +248,47 @@
 	
 		<td data-name="deleteAction" class="buttonColumn">
   			<a href="javascript:;" class="btn default btn-xs red movementComponent" id="rowDeleteButton"><i class="fa fa-times"></i></a>
-  			<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="rowInfoButton"><i class="fa fa-info-circle"></i></a>
+<!--   			<a href="javascript:;" class="btn grey-cascade btn-xs default movementComponent" id="rowInfoButton"><i class="fa fa-info-circle"></i></a> -->
 		</td>
 		
-		<td data-name="programaticKey">
+<!-- 		<td data-name="programaticKey"> -->
+<%-- 			<form:select path="upMovements" class="form-control input-small movementComponent"> --%>
+<%-- 				<form:option value="-1" label="Seleccione..."/> --%>
+<%-- 	  			<form:options items="${programaticKeys}" /> --%>
+<%-- 			</form:select> --%>
+<!-- 		</td> -->
+		
+<!-- 		<td data-name="entry"> -->
+<%-- 			<form:select path="upMovements" class="form-control input-small movementComponent"> --%>
+<%-- 				<form:option value="-1" label="Seleccione..."/> --%>
+<%-- 				<form:options items="${entries}" /> --%>
+<%-- 			</form:select> --%>
+<!-- 		</td> -->
+		
+		<td data-name="product">
 			<form:select path="upMovements" class="form-control input-small movementComponent">
 				<form:option value="-1" label="Seleccione..."/>
-	  			<form:options items="${programaticKeys}" />
+				<form:options items="${productList}" />
 			</form:select>
-		</td>
-		<td data-name="entry">
-			<form:select path="upMovements" class="form-control input-small movementComponent">
-				<form:option value="-1" label="Seleccione..."/>
-				<form:options items="${entries}" />
-			</form:select>
-		</td>
+		</td>		
+
+		
 		<td data-name="sliderControl">
-			<div class="input-small" style="padding-top:8px;">
-				<div id="sliderControl"></div>
+			<div hidden="true" class="input-small" style="padding-top:8px;">
+				<div hidden="true" id="sliderControl"></div>
 			</div>
 		</td>
-		<td data-name="monthLabels">
-			<div class="input-xsmall movementComponent" style="padding-top:2px;">
-				<span data-name="lower-offset"></span>-<span data-name="upper-offset"></span>
-			</div>
+		
+<!-- 		<td data-name="monthLabels"> -->
+<!-- 			<div class="input-xsmall movementComponent" style="padding-top:2px;"> -->
+<!-- 				<span data-name="lower-offset"></span>-<span data-name="upper-offset"></span> -->
+<!-- 			</div> -->
+			
 		<td data-name="monthAmount">
+			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent right" style="display:inline-block!Important;"/>
+		</td>
+		
+		<td data-name="price">
 			<span>$</span><form:input path="upMovements" class="form-control input-small numbersOnly movementComponent right" style="display:inline-block!Important;"/>
 		</td>
 		

@@ -19,7 +19,9 @@ public class MovementMapper implements RowMapper<Object> {
 		 mov.setInitialMonthId(rs.getInt("INITIAL_MONTH"));
 		 mov.setFinalMonthId(rs.getInt("FINAL_MONTH"));
 		 mov.setMonthAmountValue(rs.getDouble("MONTH_AMOUNT"));
+		 mov.setPriceValue(rs.getDouble("PRICE"));
 		 mov.setTotalAmountValue(rs.getDouble("TOTAL_AMOUNT"));
+		 mov.setProductId(rs.getLong("PRODUCT_ID"));
 		 mov.setIsSaved(true);
 		 return mov;   
 	 }    

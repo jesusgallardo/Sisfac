@@ -2300,17 +2300,17 @@ function initProductValidations() {
 		focusInvalid : false, // do not focus the last invalid input
 		// ignore : "", // validate all fields including form hidden input
 		rules : {
-			description : {
-				required : true,
-				maxlength : 30
-			},
-			price : {
-				required : true,
-				maxlength : 30
-			},
 			code : {
 				required : true,
 				maxlength : 30
+			},
+			description : {
+				required : true,
+				maxlength : 100
+			},
+			price : {
+				number : true,
+				maxlength : 10
 			},
 			provider : {
 				required : true,
@@ -3325,7 +3325,7 @@ function movements2Capture() {
 		movementController2.clean(movementController2.downGrid);
 
 		movementController2.update(parseInt(this.value));
-
+        alert(parseInt(this.value));
 		$(movementController2.upGrid).find('tbody tr:not(#noMovs)').remove();
 		$(movementController2.downGrid).find('tbody tr:not(#noMovs)').remove();
 
@@ -3333,17 +3333,20 @@ function movements2Capture() {
 		$(movementController2.downGrid).find("#saveMov").hide();
 
 	});
-
+	$("#movementTypeId").val(1);
 	movementController2.startComponent();
 
 	// se carga el movimiento seleccionado
+	//alert(parseInt($("#movementTypeId").val()));
 	movementController2.update(parseInt($("#movementTypeId").val()));
+	//movementController2.update(1);
 
 	var requestForm = $('#requestForm');
 
 	$('#saveAndContinue').click(function(e) {
 		requestForm.find(".pk").prop("disabled", false);
 		requestForm.find(".entry").prop("disabled", false);
+		requestForm.find(".product").prop("disabled", false);
 		requestForm.find(".monthAmount").prop("disabled", false);
 		// var isCorrect = movementController.validate();
 		requestForm.find('#nextStageValueCode').val("SOLCOMP");
